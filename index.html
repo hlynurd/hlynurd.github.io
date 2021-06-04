@@ -1,27 +1,17 @@
+ 
+<!DOCTYPE html>
 <html>
 <head>
-<title>My Sample</title>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
-<script type="text/javascript"> 
-var new_num = 40; // global variable
-jQuery(document).ready(function(){ 
-	http://api.jquery.com/css/
-	$('p').css({border: '5px solid red', color: 'green', padding: '20px'});
-	
-	// http://api.jquery.com/bind/
-	// http://api.jquery.com/css/
-	// http://api.jquery.com/text/
-	$('#countme').css({
-		margin: '0 auto',
-		backgroundColor: '#ccc',
-		textAlign: 'center',
-		fontSize: '40px'
-	}).bind('click mousemove', function(){
-		var current = parseInt($(this).text(), 10);
-		new_num = new_num + 1
-		$(this).text(current+1).css({fontSize: new_num+'px'})
-	});
-});
+<meta charset="UTF-8">
+<title>jQuery</title>
+<script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script>
+  $(document).ready(function() {
+    alert("Hello world !! document is ready");
+}); 
+  
 </script>
 </head>
 <body>
+</body>
+</html>
