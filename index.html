@@ -29,14 +29,15 @@
    };
 })(jQuery);
   
+}); 
+  
   var json_data
   $(document).ready(function() {
     $.getJSON('https://mtgjson.com/api/v5/VintageAtomic.json', function(data) {
          json_data = data// JSON result in `data` variable
-//     });
-//   //  ^------last argument
+    });
+  //  ^------last argument
 
-}); 
   
   $(document).ready(function() {
     $("#btnSubmit").click(function(){
