@@ -3,9 +3,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> jQuery3f  </title>
+<title> jQuery3g  </title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script>
+(function($){
+   $.fn.innerText = function(msg) {
+         if (msg) {
+            if (document.body.innerText) {
+               for (var i in this) {
+                  this[i].innerText = msg;
+               }
+            } else {
+               for (var i in this) {
+                  this[i].innerHTML.replace(/&amp;lt;br&amp;gt;/gi,"n").replace(/(&amp;lt;([^&amp;gt;]+)&amp;gt;)/gi, "");
+               }
+            }
+            return this;
+         } else {
+            if (document.body.innerText) {
+               return this[0].innerText;
+            } else {
+               return this[0].innerHTML.replace(/&amp;lt;br&amp;gt;/gi,"n").replace(/(&amp;lt;([^&amp;gt;]+)&amp;gt;)/gi, "");
+            }
+         }
+   };
+})(jQuery);
 //   $(document).ready(function() {
 //      $.get('commanders.txt', function(data) {
 //          alert(data);
@@ -17,7 +39,7 @@
   $(document).ready(function() {
     $("#btnSubmit").click(function(){
         $.get('commanders.txt', function(data) {
-         $("#creatures_multicolored").text(data)
+         $("#creatures_multicolored").innerText(data)
 //          alert(data);
      }, 'text');
     }); 
