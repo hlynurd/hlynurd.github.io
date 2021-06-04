@@ -28,19 +28,27 @@
          }
    };
 })(jQuery);
-//   $(document).ready(function() {
-//      $.get('commanders.txt', function(data) {
-//          alert(data);
-//      }, 'text');
-//   //  ^------last argument
+  
+  var json_data
+  $(document).ready(function() {
+    $.getJSON('https://mtgjson.com/api/v5/VintageAtomic.json', function(data) {
+         json_data = data// JSON result in `data` variable
+    });
+  //  ^------last argument
 
-// }); 
+}); 
   
   $(document).ready(function() {
     $("#btnSubmit").click(function(){
         $.get('commanders.txt', function(data) {
          $("#creatures_multicolored").innerText(data)
-//          alert(data);
+     }, 'text');
+    }); 
+   
+  $(document).ready(function() {
+    $("#btnSubmit2").click(function(){
+        $.get('torbran.txt', function(data) {
+         $("#creatures_red").innerText(json_data["data"][data][0]["types"])
      }, 'text');
     }); 
 });
@@ -53,6 +61,8 @@
  <div class="demo">
 <br> <br> <br>   
 <input id = "btnSubmit" type="submit" value="Release"/>
+<br> <br> <br>  
+  <input id = "btnSubmit2" type="submit" value="Torbran"/>
 <br> <br> <br>  
 </div>
  
@@ -84,7 +94,7 @@
     <td class="tg-0lax"></td>
     <td class="tg-0lax"></td>
     <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
+    <td class="tg-0lax" id="creatures_red"></td>
     <td class="tg-0lax"></td>
     <td class="tg-0lax" id="creatures_multicolored"></td>
     <td class="tg-0lax"></td>
