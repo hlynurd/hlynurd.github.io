@@ -51,7 +51,7 @@ $(document).ready(function() {
 $(document).ready(function() {
 	$("#btnSubmit2").click(function() {
 		$.get('torbran.txt', function(data) {
-			$("#creatures_red").innerText(json_data["data"])
+			$("#creatures_red").innerText(json_data["data"]["Torbran, Thane of Red Fell"])
 		}, 'text');
 	});
 });
