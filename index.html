@@ -3,12 +3,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>jQuery3c</title>
+<title>jQuery3d</title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script>
   $(document).ready(function() {
-    alert("Hello world !! document is ready");
+     $.get('commanders.txt', function(data) {
+         alert(data);
+     }, 'text');
+  //  ^------last argument
+
 }); 
+  
+  
   
 // var w = window.open('commanders.txt'); //Required full file path.
 // w.print();
@@ -17,13 +23,6 @@
 </head>
 <body>
  
- <script>
-  jQuery.get('commanders.txt', function(data) {
-   alert(data);
-   //process text file line by line
-   $('#div').html(data.replace('n','
-'));
-});
- </script>
+
 </body>
 </html>
