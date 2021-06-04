@@ -51,7 +51,7 @@ $(document).ready(function() {
 $(document).ready(function() {
 	$("#btnSubmit2").click(function() {
 		$.get('torbran.txt', function(data) {
-			$("#creatures_red").innerText(json_data["data"][data][0]["types"])
+			$("#creatures_red").innerText(json_data[0]["data"][data][0]["types"])
 		}, 'text');
 	});
 });
