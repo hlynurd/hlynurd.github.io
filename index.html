@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> jQueryj  </title>
+<title> jQueryk  </title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script>
 (function($) {
@@ -52,7 +52,7 @@ $(document).ready(function() {
 	$("#btnSubmit2").click(function() {
 		$.get('torbran.txt', function(data) {
 			$("#creatures_multicolored").innerText(data)
-			$("#creatures_red").innerText(JSON.stringify(json_data["data"][String(data)][0]))
+			$("#creatures_red").innerText(JSON.stringify(json_data["data"][String(data)]))
 		}, 'text');
 	});
 });
