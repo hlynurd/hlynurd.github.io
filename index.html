@@ -17,7 +17,7 @@
   $(document).ready(function() {
     $("#btnSubmit").click(function(){
         $.get('commanders.txt', function(data) {
-         $("#AddButton").text(data)
+         $("#creatures_multicolored").text(data)
 //          alert(data);
      }, 'text');
     }); 
