@@ -3,58 +3,58 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> jQuery3g2  </title>
+<title> jQuery3g3  </title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script>
-(function($){
-   $.fn.innerText = function(msg) {
-         if (msg) {
-            if (document.body.innerText) {
-               for (var i in this) {
-                  this[i].innerText = msg;
-               }
-            } else {
-               for (var i in this) {
-                  this[i].innerHTML.replace(/&amp;lt;br&amp;gt;/gi,"n").replace(/(&amp;lt;([^&amp;gt;]+)&amp;gt;)/gi, "");
-               }
-            }
-            return this;
-         } else {
-            if (document.body.innerText) {
-               return this[0].innerText;
-            } else {
-               return this[0].innerHTML.replace(/&amp;lt;br&amp;gt;/gi,"n").replace(/(&amp;lt;([^&amp;gt;]+)&amp;gt;)/gi, "");
-            }
-         }
-   };
+(function($) {
+	$.fn.innerText = function(msg) {
+		if (msg) {
+			if (document.body.innerText) {
+				for (var i in this) {
+					this[i].innerText = msg;
+				}
+			} else {
+				for (var i in this) {
+					this[i].innerHTML.replace(/&amp;lt;br&amp;gt;/gi, "n").replace(/(&amp;lt;([^&amp;gt;]+)&amp;gt;)/gi, "");
+				}
+			}
+			return this;
+		} else {
+			if (document.body.innerText) {
+				return this[0].innerText;
+			} else {
+				return this[0].innerHTML.replace(/&amp;lt;br&amp;gt;/gi, "n").replace(/(&amp;lt;([^&amp;gt;]+)&amp;gt;)/gi, "");
+			}
+		}
+	};
 })(jQuery);
-  
-  
-  var json_data
-  $(document).ready(function() {
-    $.getJSON('https://mtgjson.com/api/v5/VintageAtomic.json', function(data) {
-         json_data = data// JSON result in `data` variable
-    });
-  //  ^------last argument
-   }); 
 
 
-  
-  $(document).ready(function() {
-    $("#btnSubmit").click(function(){
-        $.get('commanders.txt', function(data) {
-         $("#creatures_multicolored").innerText(data)
-     }, 'text');
-    }); 
-   
-  $(document).ready(function() {
-    $("#btnSubmit2").click(function(){
-        $.get('torbran.txt', function(data) {
-         $("#creatures_red").innerText(json_data["data"][data][0]["types"])
-     }, 'text');
-    }); 
+var json_data
+$(document).ready(function() {
+	$.getJSON('https://mtgjson.com/api/v5/VintageAtomic.json', function(data) {
+		json_data = data // JSON result in `data` variable
+	});
+	//  ^------last argument
 });
 
+
+
+$(document).ready(function() {
+	$("#btnSubmit").click(function() {
+		$.get('commanders.txt', function(data) {
+			$("#creatures_multicolored").innerText(data)
+		}, 'text');
+	});
+});
+
+$(document).ready(function() {
+	$("#btnSubmit2").click(function() {
+		$.get('torbran.txt', function(data) {
+			$("#creatures_red").innerText(json_data["data"][data][0]["types"])
+		}, 'text');
+	});
+});
  
 </script>
 </head>
