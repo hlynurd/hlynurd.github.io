@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>jQuery3e</title>
+<title> jQuery3f  </title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script>
   $(document).ready(function() {
@@ -16,7 +16,9 @@
   
   $(document).ready(function() {
     $("#btnSubmit").click(function(){
-        alert("button");
+        $.get('commanders.txt', function(data) {
+         alert(data);
+     }, 'text');
     }); 
 });
 
