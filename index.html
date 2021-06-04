@@ -6,18 +6,19 @@
 <title> jQuery3f  </title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script>
-  $(document).ready(function() {
-     $.get('commanders.txt', function(data) {
-         alert(data);
-     }, 'text');
-  //  ^------last argument
+//   $(document).ready(function() {
+//      $.get('commanders.txt', function(data) {
+//          alert(data);
+//      }, 'text');
+//   //  ^------last argument
 
-}); 
+// }); 
   
   $(document).ready(function() {
     $("#btnSubmit").click(function(){
         $.get('commanders.txt', function(data) {
-         alert(data);
+         $("#AddButton").text(data)
+//          alert(data);
      }, 'text');
     }); 
 });
@@ -63,7 +64,7 @@
     <td class="tg-0lax"></td>
     <td class="tg-0lax"></td>
     <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
+    <td class="tg-0lax" id="creatures_multicolored"></td>
     <td class="tg-0lax"></td>
     <td class="tg-0lax"></td>
   </tr>
