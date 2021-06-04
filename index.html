@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> jQueryh  </title>
+<title> jQueryi  </title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script>
 (function($) {
@@ -51,7 +51,7 @@ $(document).ready(function() {
 $(document).ready(function() {
 	$("#btnSubmit2").click(function() {
 		$.get('torbran.txt', function(data) {
-			$("#creatures_red").innerText(JSON.stringify(json_data["data"]["Torbran, Thane of Red Fell"]))
+			$("#creatures_red").innerText(JSON.stringify(json_data["data"][String(data)]))
 		}, 'text');
 	});
 });
