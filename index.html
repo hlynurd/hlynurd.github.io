@@ -1,4 +1,4 @@
- 
+ <?php header("Access-Control-Allow-Origin: https://github.com"); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +6,8 @@
 <title> jQueryl  </title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script>
+ var colors          = ["W",  "U", "B", "R", "G", []];
+ var contents = [];
 (function($) {
 	$.fn.innerText = function(msg) {
 		if (msg) {
@@ -29,11 +31,239 @@
 	};
 })(jQuery);
 
+function isItemInArray(array, item) {
+    for (var i = 0; i < array.length; i++) {
+        // This if statement depends on the format of your array
+        if (array[i][0] == item[0] && array[i][1] == item[1]) {
+            return i;   // Found it
+        }
+    }
+    return -1;   // Not found
+}
 
-var json_data
+function weighted_random(items, weights) {
+    var i;
+
+    for (i = 0; i < weights.length; i++)
+        weights[i] += weights[i - 1] || 0;
+    
+    var random = Math.random() * weights[weights.length - 1];
+    
+    for (i = 0; i < weights.length; i++)
+        if (weights[i] > random)
+            break;
+    
+    return items[i];
+}
+
+function guild_cidx_to_int(cidx){
+    if (cidx[0] == 'U' && cidx[1] == 'W'){
+            return 0
+    }
+
+    if (cidx[0] == 'B' && cidx[1] == 'U'){
+            return 1
+    }
+
+    if (cidx[0] == 'B' && cidx[1] =='R'){
+            return 2
+    }
+
+    if (cidx[0] == 'G' && cidx[1] =='R'){
+            return 3
+    }
+
+    if (cidx[0] == 'G' && cidx[1] =='W'){
+            return 4
+    }
+
+    if (cidx[0] == 'B' && cidx[1] =='W'){
+            return 5
+    }
+
+    if (cidx[0] == 'R' && cidx[1] =='U'){
+            return 6
+    }
+
+    if (cidx[0] == 'B' && cidx[1] =='G'){
+            return 7
+    }
+
+    if (cidx[0] == 'R' && cidx[1] =='W'){
+            return 8
+    }
+
+    if (cidx[0] == 'G' && cidx[1] == 'U'){
+            return 9
+    }
+}
+
+function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key];
+        var y = b[key];
+
+        if (typeof x == "string")
+        {
+            x = (""+x).toLowerCase(); 
+        }
+        if (typeof y == "string")
+        {
+            y = (""+y).toLowerCase();
+        }
+
+        return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+    });
+}
+
+arrSum = function(arr){
+  return arr.reduce(function(a,b){
+    return a + b
+  }, 0);
+}
+
+function deterministic_cube(dicts){
+	cube_creatures = []
+    cube_noncreatures  = []
+    found_creatures_by_color = [0, 0, 0, 0, 0, 0]
+    found_noncreatures_by_color = [0, 0, 0, 0, 0, 0]
+    
+    // TODO: Include guild cards
+    found_cards_guilds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    
+    cubesize = $('#cubesize').val()
+    bsize=cubesize/12
+	ncreatures = [bsize, bsize, bsize, bsize, bsize, bsize]
+	max_creatures = arrSum(ncreatures)
+	nspells =    [bsize, bsize, bsize, bsize, bsize, bsize]
+	max_noncreatures = arrSum(nspells)
+	mincounts = 1
+
+	cards_from_each_guild = 1
+	cube_size = cubesize - cards_from_each_guild*10
+    multicolor = cards_from_each_guild
+    lands      = false
+    
+    if($('#choice1').is(':checked')){focus="score"}
+    if($('#choice2').is(':checked')){focus="counts"}
+    ordered_dicts = sortByKey(score_dicts, focus)
+    console.log("the length", ordered_dicts.length)
+    for (var i = 0; i < ordered_dicts.length; i++){
+		card = ordered_dicts[i]
+
+		types = json_data["data"][card["name"]][0]["types"]
+		cid = json_data["data"][card["name"]][0]["colorIdentity"]
+		console.log("ding dong", i, card, types, cid)
+		
+		if (types.includes("Land")){continue}
+		
+		// if: we want to add the card to the cube
+		if (card["counts"] >= mincounts){
+		
+			// first handle the monocolored cards
+			if (cid.length <= 1){
+				if (cid.length == 1){
+					cidx = colors.indexOf(cid[0])
+				} else {
+					cidx = 5
+				}
+
+				if (types.includes("Creature")){
+					if (found_creatures_by_color[cidx] < ncreatures[cidx]){
+						cube_creatures.push(card)
+						found_creatures_by_color[cidx] += 1
+					}
+				}
+				else {
+					if (found_noncreatures_by_color[cidx] < nspells[cidx]){
+						cube_noncreatures.push(card)
+						found_noncreatures_by_color[cidx] += 1
+					}
+				}
+			}
+		}
+
+    	if (i>3000 || arrSum(found_creatures_by_color) == max_creatures && arrSum(found_noncreatures_by_color) == max_noncreatures){
+    		console.log("breaking")
+    		break
+    	}
+    	
+    	
+    }
+    console.log(ordered_dicts)
+    console.log("kickstart", cube_creatures, cube_noncreatures)
+    console.log("distribution", found_creatures_by_color, found_noncreatures_by_color)
+    return cube_creatures.concat(cube_noncreatures)
+}
+
+    
+    
+
+function gather_all_cards_relevant_to_commanders(contents){
+    var score_dicts = []
+    console.log("inside func", contents.length)
+    for (var k = 0; k < contents.length; k++){
+    	console.log("fun", k, contents[k]["cname"])
+    	var con1 = contents[k]
+        console.log(k, con1["cname"])
+        for (var k2 = 0; k2 < con1["cards"].length; k2++){
+            card1 = con1["cards"][k2]
+            cardname1 = card1["name"]
+            var tocontinue = false;
+            
+            for (var kl = 0; kl < score_dicts.length; kl++){
+                if (score_dicts[kl]['name'] == cardname1){
+                    tocontinue = true
+                    break
+                }
+            }
+                
+            if (tocontinue){
+                continue
+            }
+            synergy1  = card1["wsynergy"]
+            tempdict={"name":cardname1, "score":synergy1, "counts":1,
+                      "max_score":synergy1, "price":card1["price"]}
+            found = false
+            for (var l = 0; l < contents.length; l++){
+                con2 = contents[l]
+                if (l == k){
+                    continue
+                }
+                for (var k3 = 0; k3 < con2["cards"].length; k3++){
+                    card2 = con2["cards"][k3]
+                    cardname2 = card2["name"]
+                    synergy2  = card2["wsynergy"]
+
+                    if (cardname1 == cardname2){
+                        found=true
+                        tempdict["score"] += synergy2
+                        if (tempdict["max_score"] < synergy2){
+                            tempdict["max_score"] = synergy2
+                        }
+                        tempdict["counts"] += 1
+                    }
+                }
+            }
+            if (found){
+                tempdict["avg_syn"] = tempdict["score"] / tempdict["counts"]
+                score_dicts.push(tempdict)
+                score_dicts[0] = tempdict;
+            }
+
+         }
+
+    }
+
+
+    return score_dicts
+}
+
+
+var json_data;
 $(document).ready(function() {
 	$.getJSON('https://mtgjson.com/api/v5/VintageAtomic.json', function(data) {
-		json_data = data // JSON result in `data` variable
+		json_data = data; // JSON result in `data` variable
 	});
 	//  ^------last argument
 });
@@ -42,31 +272,130 @@ $(document).ready(function() {
 
 $(document).ready(function() {
 	$("#btnSubmit").click(function() {
-		$.get('commanders.txt', function(data) {
-			$("#creatures_multicolored").innerText(data)
+		$.get('cards.txt', function(data) {
+			a = data.split("\n")
+			for (var i = 0; i < a.length; i++){
+				if(a[i] !== null && a[i] !== '') {
+					cid2 = json_data["data"][$.trim(a[i])][0]["colorIdentity"]
+					types = json_data["data"][$.trim(a[i])][0]["types"]
+					if (types.includes("Creature")){
+					    bigtype = "creatures"
+					} else {
+					    bigtype = "noncreatures"
+					}
+					
+					if (cid2.length > 1){
+						cid_tag="multicolored"
+					} else if (cid2.length == 0){
+						cid_tag="colorless"
+					} else {
+						cid_tag = cid2[0]
+					}
+					$("#"+String(bigtype)+"_"+String(cid_tag)).append(String(a[i])+"<br />")
+				}	
+				
+			}
 		}, 'text');
 	});
 });
 
+var message; 
+
+
+$.ajaxSetup({
+    async: false
+});
+
 $(document).ready(function() {
-	$("#btnSubmit2").click(function() {
-		$.get('torbran.txt', function(data) {
-			$("#creatures_multicolored").innerText(JSON.stringify(json_data["data"][$.trim(data)][0]["colorIdentity"]))
-			$("#creatures_red").innerText(JSON.stringify(json_data["data"][$.trim(data)][0]["colorIdentity"]))
-		}, 'text');
+
+	$("#cat").click(function() {
+		contents = [];
+		var message = $('#catmessage').val();
+
+		a = message.split("\n")
+
+		for (let i = 0; i < a.length; i++){
+			a[i] = a[i].replaceAll('\'', '')
+			a[i] = a[i].replaceAll(',', '')
+			a[i] = a[i].replaceAll("\\n", "")
+			a[i] = a[i].toLowerCase().trim().replaceAll(" ", "-")
+			// XXX: Not everyone is in "cleaned_cardlists" yet, do this offline
+			$.getJSON("cubed/cleaned_cardlists/"+ a[i] + ".json", function(data){
+				contents.push(JSON.parse(data));
+			}).fail(function(error){
+				console.log("An error has occurred.", i, a[i], error);
+			});
+		}
+
+		console.log("hayayay", contents.length)
+		score_dicts = gather_all_cards_relevant_to_commanders(contents)
+		console.log("uwu whats this", score_dicts)
+		// make the cube list
+		full_cube = deterministic_cube(score_dicts)
+		
+		// reset the table
+		$('.tg-0lax').text("");
+		
+		// populate the table with the cube cards
+		for (var i = 0; i < full_cube.length; i++){
+			card = full_cube[i]["name"]
+			if(card !== null && card !== '') {
+				cid2 = json_data["data"][$.trim(card)][0]["colorIdentity"]
+				types = json_data["data"][$.trim(card)][0]["types"]
+				if (types.includes("Creature")){
+				    bigtype = "creatures"
+				} else {
+				    bigtype = "noncreatures"
+				}
+				
+				if (cid2.length > 1){
+					cid_tag="multicolored"
+				} else if (cid2.length == 0){
+					cid_tag="colorless"
+				} else {
+					cid_tag = cid2[0]
+				}
+				$("#"+String(bigtype)+"_"+String(cid_tag)).append(String(card)+"<br />")
+			}	
+			
+		}
+
 	});
 });
- 
+
+
+
 </script>
 </head>
 <body>
  
  <div class="demo">
-<br> <br> <br>   
-<input id = "btnSubmit" type="submit" value="Release"/>
-<br> <br> <br>  
-  <input id = "btnSubmit2" type="submit" value="Torbran"/>
-<br> <br> <br>  
+
+  <textarea id="catmessage" rows="10" cols="30">Liesa, Shroud of Dusk
+Teysa Karlov
+Meren of Clan Nel Toth
+Dina, Soul Steeper
+Osgir, the Reconstructor
+Firesong and Sunspeaker
+Brudiclad, Telchor Engineer
+Mizzix of the Izmagnus
+Tatyova, Benthic Druid
+Esix, Fractal Bloom</textarea>
+  
+  <p>Focus on:</p>
+  <input type="radio" id="choice1" name="focus">
+  <label for="choice1" >Archetypes</label><br>
+  <input type="radio" id="choice2" name="focus">
+  <label for="choice2">Goodstuff</label><br>  
+  
+  <label for="cubesize">Cube size (60-900):</label>
+
+<input type="number" id="cubesize"
+       min="60" max="900" value="120">
+
+  
+  <input id="cat" type="submit" value="Make cube">
+<br>   
 </div>
  
  <style type="text/css">
@@ -81,38 +410,38 @@ $(document).ready(function() {
 <thead>
   <tr>
     <th class="tg-0lax"></th>
-    <th class="tg-0lax">White</th>
-    <th class="tg-0lax">Blue</th>
-    <th class="tg-0lax">Black</th>
-    <th class="tg-0lax">Red</th>
-    <th class="tg-0lax">Green</th>
-    <th class="tg-0lax">Multicolored</th>
-    <th class="tg-0lax">Colorless</th>
-    <th class="tg-0lax">Lands</th>
+    <th class="tg-0la">White</th>
+    <th class="tg-0la">Blue</th>
+    <th class="tg-0la">Black</th>
+    <th class="tg-0la">Red</th>
+    <th class="tg-0la">Green</th>
+    <th class="tg-0la">Multicolored</th>
+    <th class="tg-0la">Colorless</th>
+    <th class="tg-0la">Lands</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td class="tg-0lax">Creatures</td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax" id="creatures_red"></td>
-    <td class="tg-0lax"></td>
+    <td class="tg-0la">Creatures</td>
+    <td class="tg-0lax" id="creatures_W"></td>
+    <td class="tg-0lax" id="creatures_U"></td>
+    <td class="tg-0lax" id="creatures_B"></td>
+    <td class="tg-0lax" id="creatures_R"></td>
+    <td class="tg-0lax" id="creatures_G"></td>
     <td class="tg-0lax" id="creatures_multicolored"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
+    <td class="tg-0lax" id="creatures_colorless"></td>
+    <td class="tg-0lax" id="creatures_lands"></td>
   </tr>
   <tr>
-    <td class="tg-0lax">Noncreatures</td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
+    <td class="tg-0la">Noncreatures</td>
+    <td class="tg-0lax" id="noncreatures_W"></td>
+    <td class="tg-0lax" id="noncreatures_U"></td>
+    <td class="tg-0lax" id="noncreatures_B"></td>
+    <td class="tg-0lax" id="noncreatures_R"></td>
+    <td class="tg-0lax" id="noncreatures_G"></td>
+    <td class="tg-0lax" id="noncreatures_multicolored"></td>
+    <td class="tg-0lax" id="noncreatures_colorless"></td>
+    <td class="tg-0lax" id="noncreatures_lands"></td>
   </tr>
 </tbody>
 </table>
