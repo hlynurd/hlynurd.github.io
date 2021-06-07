@@ -1,4 +1,5 @@
  <?php header("Access-Control-Allow-Origin: https://github.com"); ?>
+ 
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,9 @@
 <title> jQueryl  </title>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  <script>
+ 
+ // TODO: Make hover-over on cards to show the list of associated commanders
+ // TODO; Make a drop-down list of commanders to highlight their associated cards
  var colors          = ["W",  "U", "B", "R", "G", []];
  var contents = [];
 (function($) {
@@ -238,65 +242,6 @@ function gather_all_cards_relevant_to_commanders2(contents){
 }
 
 
-function gather_all_cards_relevant_to_commanders(contents){
-    var score_dicts = []
-    console.log("inside func", contents.length)
-    for (var k = 0; k < contents.length; k++){
-    	console.log("fun", k, contents[k]["cname"])
-    	var con1 = contents[k]
-        console.log(k, con1["cname"])
-        for (var k2 = 0; k2 < con1["cards"].length; k2++){
-            card1 = con1["cards"][k2]
-            cardname1 = card1["name"]
-            var tocontinue = false;
-            
-            for (var kl = 0; kl < score_dicts.length; kl++){
-                if (score_dicts[kl]['name'] == cardname1){
-                    tocontinue = true
-                    break
-                }
-            }
-                
-            if (tocontinue){
-                continue
-            }
-            synergy1  = card1["wsynergy"]
-            tempdict={"name":cardname1, "score":synergy1, "counts":1,
-                      "max_score":synergy1, "price":card1["price"]}
-            found = false
-            for (var l = 0; l < contents.length; l++){
-                con2 = contents[l]
-                if (l == k){
-                    continue
-                }
-                for (var k3 = 0; k3 < con2["cards"].length; k3++){
-                    card2 = con2["cards"][k3]
-                    cardname2 = card2["name"]
-                    synergy2  = card2["wsynergy"]
-
-                    if (cardname1 == cardname2){
-                        found=true
-                        tempdict["score"] += synergy2
-                        if (tempdict["max_score"] < synergy2){
-                            tempdict["max_score"] = synergy2
-                        }
-                        tempdict["counts"] += 1
-                    }
-                }
-            }
-            if (found){
-                tempdict["avg_syn"] = tempdict["score"] / tempdict["counts"]
-                score_dicts.push(tempdict)
-                score_dicts[0] = tempdict;
-            }
-
-         }
-
-    }
-
-
-    return score_dicts
-}
 
 
 var json_data;
@@ -309,37 +254,8 @@ $(document).ready(function() {
 
 
 
-$(document).ready(function() {
-	$("#btnSubmit").click(function() {
-		$.get('cards.txt', function(data) {
-			a = data.split("\n")
-			for (var i = 0; i < a.length; i++){
-				if(a[i] !== null && a[i] !== '') {
-					cid2 = json_data["data"][$.trim(a[i])][0]["colorIdentity"]
-					types = json_data["data"][$.trim(a[i])][0]["types"]
-					if (types.includes("Creature")){
-					    bigtype = "creatures"
-					} else {
-					    bigtype = "noncreatures"
-					}
-					
-					if (cid2.length > 1){
-						cid_tag="multicolored"
-					} else if (cid2.length == 0){
-						cid_tag="colorless"
-					} else {
-						cid_tag = cid2[0]
-					}
-					$("#"+String(bigtype)+"_"+String(cid_tag)).append(String(a[i])+"<br />")
-				}	
-				
-			}
-		}, 'text');
-	});
-});
-
 var message; 
-
+var full_cube;
 
 $.ajaxSetup({
     async: false
@@ -398,6 +314,41 @@ $(document).ready(function() {
 			}	
 			
 		}
+		
+		// then populate the commander-card pairing table
+		
+		$("#mytable > tbody").empty();
+		$("#mytable > tbody > tr").remove();
+		for (var j = 0; j < contents.length; j++){
+			console.log("rowcount is", rowcount)
+			rowcount += 1
+			cname = String(contents[j]["cname"])
+			$("#mytable").each(function () {
+				 var tds = '<tr>';
+				 tds += "<td id = \"" + cname + "a\" >"+ cname +"</td>"
+				 tds += "<td id = \"" + cname + "b\" ></td>"
+				 tds += '</tr>';
+				 console.log("stefan", tds)
+				 if ($('tbody', this).length > 0) {
+				     $('tbody', this).append(tds);
+				 } else {
+				     $(this).append(tds);
+				 }
+				
+				 for (var i = 0 ; i < full_cube.length; i++){
+				 	console.log("BREEENA")
+				 	for (var i2 =0; i2 < contents[j]["cards"].length; i2++){
+				 	    if (full_cube[i]["name"] == contents[j]["cards"][i2]["name"]){
+				 	    	console.log("should be appending", cname)
+				 	 		$("#"+cname + "b").append(full_cube[i]["name"]+"<br />")
+				 	    	break
+				 	    }
+				 	
+				 	}
+				 	
+				 }
+		 });
+		}
 
 	});
 });
@@ -409,7 +360,7 @@ $(document).ready(function() {
 <body>
  
  <div class="demo">
-
+<p> Commanders: </p>
   <textarea id="catmessage" rows="10" cols="30">Liesa, Shroud of Dusk
 Teysa Karlov
 Meren of Clan Nel Toth
@@ -422,7 +373,7 @@ Tatyova, Benthic Druid
 Esix, Fractal Bloom</textarea>
   
   <p>Focus on:</p>
-  <input type="radio" id="choice1" name="focus">
+  <input type="radio" id="choice1" name="focus" value="" checked="checked">
   <label for="choice1" >Archetypes</label><br>
   <input type="radio" id="choice2" name="focus">
   <label for="choice2">Goodstuff</label><br>  
@@ -445,6 +396,9 @@ Esix, Fractal Bloom</textarea>
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg .tg-0lax{text-align:left;vertical-align:top}
 </style>
+
+  <p>Cube list:</p>
+
 <table class="tg">
 <thead>
   <tr>
@@ -484,6 +438,70 @@ Esix, Fractal Bloom</textarea>
   </tr>
 </tbody>
 </table>
+
+<br>
+
+<script> 
+var rowcount=0
+$(document).ready(function() {
+
+	$("#insert-more").click(function () {
+	console.log("yeehaw", contents.length)	
+		$("#mytable > tbody").empty();
+		$("#mytable > tbody > tr").remove();
+		for (var j = 0; j < contents.length; j++){
+			console.log("rowcount is", rowcount)
+			rowcount += 1
+			cname = String(contents[j]["cname"])
+			$("#mytable").each(function () {
+				 var tds = '<tr>';
+				 tds += "<td id = \"" + cname + "a\" >"+ cname +"</td>"
+				 tds += "<td id = \"" + cname + "b\" ></td>"
+				 tds += '</tr>';
+				 console.log("stefan", tds)
+				 if ($('tbody', this).length > 0) {
+				     $('tbody', this).append(tds);
+				 } else {
+				     $(this).append(tds);
+				 }
+				
+				 for (var i = 0 ; i < full_cube.length; i++){
+				 	console.log("BREEENA")
+				 	for (var i2 =0; i2 < contents[j]["cards"].length; i2++){
+				 	    if (full_cube[i]["name"] == contents[j]["cards"][i2]["name"]){
+				 	    	console.log("should be appending", cname)
+				 	 		$("#"+cname + "b").append(full_cube[i]["name"]+"<br />")
+				 	    	break
+				 	    }
+				 	
+				 	}
+				 	
+				 }
+		 });
+		}
+
+	});
+
+});
+</script>
+
+<br><br>
+
+  <p>Commander-card pairings:</p>
+
+<table class="tg" id="mytable">
+    <thead>
+  <tr>
+    <th class="tg-0la">Commander</th>
+    <th class="tg-0la">Associated cards</th>
+  </tr>
+    </thead>
+    <tbody>
+    <tr><td></td><td></td></tr>
+    </tbody>
+</table>
+
+
 
 </body>
 </html>
