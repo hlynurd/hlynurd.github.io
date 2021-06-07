@@ -262,7 +262,7 @@ function gather_all_cards_relevant_to_commanders(contents){
 
 var json_data;
 $(document).ready(function() {
-	$.getJSON('https://mtgjson.com/api/v5/VintageAtomic.json', function(data) {
+	$.getJSON('json_data.json', function(data) {
 		json_data = data; // JSON result in `data` variable
 	});
 	//  ^------last argument
