@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title> jQueryl  </title>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="../jquery-3.3.1.min.js"></script>
  <script>
  
  // TODO: Make hover-over on cards to show the list of associated commanders
@@ -43,21 +43,6 @@ function isItemInArray(array, item) {
         }
     }
     return -1;   // Not found
-}
-
-function weighted_random(items, weights) {
-    var i;
-
-    for (i = 0; i < weights.length; i++)
-        weights[i] += weights[i - 1] || 0;
-    
-    var random = Math.random() * weights[weights.length - 1];
-    
-    for (i = 0; i < weights.length; i++)
-        if (weights[i] > random)
-            break;
-    
-    return items[i];
 }
 
 function guild_cidx_to_int(cidx){
@@ -227,14 +212,17 @@ function gather_all_cards_relevant_to_commanders2(contents){
                 if (card1["wsynergy"] > score_dicts2[card1["name"]]["max_score"]){
                 	score_dicts2[card1["name"]]["max_score"] = card1["wsynergy"]
                 }
+                score_dicts2[card1["name"]]["commanders"].push(con1["cname"])
+                
             }
             else{
-
                 score_dicts2[card1["name"]] = {}
                 score_dicts2[card1["name"]]["score"] = card1["wsynergy"]
                 score_dicts2[card1["name"]]["price"] = card1["price"]
                 score_dicts2[card1["name"]]["max_score"] = card1["wsynergy"]
                 score_dicts2[card1["name"]]["counts"] = 1
+                score_dicts2[card1["name"]]["commanders"] = [con1["cname"]]
+                
             }
         }
     }
@@ -262,6 +250,14 @@ $.ajaxSetup({
 });
 
 $(document).ready(function() {
+
+	$('#select-id').on('change', function (e) {
+		var optionSelected = $("option:selected", this);
+		var valueSelected = this.value;
+		console.log(valueSelected)
+		$("div").removeClass('thick');
+   	     $("."+valueSelected).addClass('thick');
+	});
 
 	$("#cat").click(function() {
 		contents = [];
@@ -310,44 +306,19 @@ $(document).ready(function() {
 				} else {
 					cid_tag = cid2[0]
 				}
-				$("#"+String(bigtype)+"_"+String(cid_tag)).append(String(card)+"<br />")
+				console.log(full_cube[i]["commanders"])
+				$("#"+String(bigtype)+"_"+String(cid_tag)).append($('<div></div>').addClass(full_cube[i]["commanders"]).addClass("tooltip").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html(full_cube[i]["commanders"].join(("<br>"))))).append("<br>")
+
 			}	
 			
 		}
 		
-		// then populate the commander-card pairing table
+		// populate select item with commander names
 		
-		$("#mytable > tbody").empty();
-		$("#mytable > tbody > tr").remove();
 		for (var j = 0; j < contents.length; j++){
-			console.log("rowcount is", rowcount)
-			rowcount += 1
 			cname = String(contents[j]["cname"])
-			$("#mytable").each(function () {
-				 var tds = '<tr>';
-				 tds += "<td id = \"" + cname + "a\" >"+ cname +"</td>"
-				 tds += "<td id = \"" + cname + "b\" ></td>"
-				 tds += '</tr>';
-				 console.log("stefan", tds)
-				 if ($('tbody', this).length > 0) {
-				     $('tbody', this).append(tds);
-				 } else {
-				     $(this).append(tds);
-				 }
-				
-				 for (var i = 0 ; i < full_cube.length; i++){
-				 	console.log("BREEENA")
-				 	for (var i2 =0; i2 < contents[j]["cards"].length; i2++){
-				 	    if (full_cube[i]["name"] == contents[j]["cards"][i2]["name"]){
-				 	    	console.log("should be appending", cname)
-				 	 		$("#"+cname + "b").append(full_cube[i]["name"]+"<br />")
-				 	    	break
-				 	    }
-				 	
-				 	}
-				 	
-				 }
-		 });
+			console.log("hmm", cname)
+			$('#select-id').append($('<option></option>').val(cname).text(cname)); 
 		}
 
 	});
@@ -389,6 +360,11 @@ Esix, Fractal Bloom</textarea>
 </div>
  
  <style type="text/css">
+ 
+ .thick {
+  font-weight: bold;
+}
+ 
 .tg  {border-collapse:collapse;border-spacing:0;}
 .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   overflow:hidden;padding:10px 5px;word-break:normal;}
@@ -441,65 +417,48 @@ Esix, Fractal Bloom</textarea>
 
 <br>
 
-<script> 
-var rowcount=0
-$(document).ready(function() {
 
-	$("#insert-more").click(function () {
-	console.log("yeehaw", contents.length)	
-		$("#mytable > tbody").empty();
-		$("#mytable > tbody > tr").remove();
-		for (var j = 0; j < contents.length; j++){
-			console.log("rowcount is", rowcount)
-			rowcount += 1
-			cname = String(contents[j]["cname"])
-			$("#mytable").each(function () {
-				 var tds = '<tr>';
-				 tds += "<td id = \"" + cname + "a\" >"+ cname +"</td>"
-				 tds += "<td id = \"" + cname + "b\" ></td>"
-				 tds += '</tr>';
-				 console.log("stefan", tds)
-				 if ($('tbody', this).length > 0) {
-				     $('tbody', this).append(tds);
-				 } else {
-				     $(this).append(tds);
-				 }
-				
-				 for (var i = 0 ; i < full_cube.length; i++){
-				 	console.log("BREEENA")
-				 	for (var i2 =0; i2 < contents[j]["cards"].length; i2++){
-				 	    if (full_cube[i]["name"] == contents[j]["cards"][i2]["name"]){
-				 	    	console.log("should be appending", cname)
-				 	 		$("#"+cname + "b").append(full_cube[i]["name"]+"<br />")
-				 	    	break
-				 	    }
-				 	
-				 	}
-				 	
-				 }
-		 });
-		}
 
-	});
+  <label for="cars">Highlight cards associated with: </label>
+  <select name="cars" id="select-id">
+      <option value="nocommanders">Any</option>
 
-});
-</script>
+  </select>
 
 <br><br>
 
-  <p>Commander-card pairings:</p>
+<style>
+/* Tooltip container */
+.tooltip {
 
-<table class="tg" id="mytable">
-    <thead>
-  <tr>
-    <th class="tg-0la">Commander</th>
-    <th class="tg-0la">Associated cards</th>
-  </tr>
-    </thead>
-    <tbody>
-    <tr><td></td><td></td></tr>
-    </tbody>
-</table>
+  display: inline-block;
+
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: auto;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 7px;
+  border-radius: 6px;
+  z-index: 1000;	
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 10000	;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  z-index: 1000;
+}
+</style>
+
+
 
 
 
