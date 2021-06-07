@@ -144,16 +144,26 @@ function deterministic_cube(dicts){
     multicolor = cards_from_each_guild
     lands      = false
     
+    score_dicts2 = []
+    for (var i = 0; i < Object.keys(score_dicts).length; i++){
+    	tmp_dict = score_dicts[Object.keys(score_dicts)[i]]
+    	tmp_dict["name"] = Object.keys(score_dicts)[i].replace("\"", "").trim()
+    	score_dicts2.push(tmp_dict)
+    }
+    score_dicts = score_dicts2
+    console.log("sorted:", score_dicts)
     if($('#choice1').is(':checked')){focus="score"}
     if($('#choice2').is(':checked')){focus="counts"}
     ordered_dicts = sortByKey(score_dicts, focus)
-    console.log("the length", ordered_dicts.length)
+    //console.log("the length", ordered_dicts.length)
     for (var i = 0; i < ordered_dicts.length; i++){
 		card = ordered_dicts[i]
-
-		types = json_data["data"][card["name"]][0]["types"]
+		try{types = json_data["data"][card["name"]][0]["types"]}
+		catch(error){
+		console.log("problem with", card)
+		continue}
 		cid = json_data["data"][card["name"]][0]["colorIdentity"]
-		console.log("ding dong", i, card, types, cid)
+		//console.log("ding dong", i, card, types, cid)
 		
 		if (types.includes("Land")){continue}
 		
@@ -198,6 +208,35 @@ function deterministic_cube(dicts){
 
     
     
+function gather_all_cards_relevant_to_commanders2(contents){
+    score_dicts2 = {}
+    for (var k = 0; k < contents.length; k++){
+    	con1 = contents[k]
+        for (var k2 = 0; k2 < con1["cards"].length; k2++) {
+        	card1 = con1["cards"][k2]
+            try{card1["name"] in score_dicts2}
+            catch(error){continue}
+            if (card1["name"] in score_dicts2){
+
+                score_dicts2[card1["name"]]["counts"] +=1
+                score_dicts2[card1["name"]]["score"] += card1["wsynergy"]
+                if (card1["wsynergy"] > score_dicts2[card1["name"]]["max_score"]){
+                	score_dicts2[card1["name"]]["max_score"] = card1["wsynergy"]
+                }
+            }
+            else{
+
+                score_dicts2[card1["name"]] = {}
+                score_dicts2[card1["name"]]["score"] = card1["wsynergy"]
+                score_dicts2[card1["name"]]["price"] = card1["price"]
+                score_dicts2[card1["name"]]["max_score"] = card1["wsynergy"]
+                score_dicts2[card1["name"]]["counts"] = 1
+            }
+        }
+    }
+    return score_dicts2
+}
+
 
 function gather_all_cards_relevant_to_commanders(contents){
     var score_dicts = []
@@ -328,7 +367,7 @@ $(document).ready(function() {
 		}
 
 		console.log("hayayay", contents.length)
-		score_dicts = gather_all_cards_relevant_to_commanders(contents)
+		score_dicts = gather_all_cards_relevant_to_commanders2(contents)
 		console.log("uwu whats this", score_dicts)
 		// make the cube list
 		full_cube = deterministic_cube(score_dicts)
