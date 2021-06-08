@@ -208,18 +208,18 @@ function gather_all_cards_relevant_to_commanders2(contents){
             if (card1["name"] in score_dicts2){
 
                 score_dicts2[card1["name"]]["counts"] +=1
-                score_dicts2[card1["name"]]["score"] += card1["wsynergy"]
-                if (card1["wsynergy"] > score_dicts2[card1["name"]]["max_score"]){
-                	score_dicts2[card1["name"]]["max_score"] = card1["wsynergy"]
+                score_dicts2[card1["name"]]["score"] += card1["cond_prob"]
+                if (card1["cond_prob"] > score_dicts2[card1["name"]]["max_score"]){
+                	score_dicts2[card1["name"]]["max_score"] = card1["cond_prob"]
                 }
                 score_dicts2[card1["name"]]["commanders"].push(con1["cname"])
                 
             }
             else{
                 score_dicts2[card1["name"]] = {}
-                score_dicts2[card1["name"]]["score"] = card1["wsynergy"]
-                score_dicts2[card1["name"]]["price"] = card1["price"]
-                score_dicts2[card1["name"]]["max_score"] = card1["wsynergy"]
+                score_dicts2[card1["name"]]["score"] = card1["cond_prob"]
+                score_dicts2[card1["name"]]["budget"] = card1["budget"]
+                score_dicts2[card1["name"]]["max_score"] = card1["cond_prob"]
                 score_dicts2[card1["name"]]["counts"] = 1
                 score_dicts2[card1["name"]]["commanders"] = [con1["cname"]]
                 
