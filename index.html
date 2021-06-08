@@ -140,7 +140,6 @@ function deterministic_cube(dicts){
     	score_dicts2.push(tmp_dict)
     }
     score_dicts = score_dicts2
-    console.log("sorted:", score_dicts)
     if($('#choice1').is(':checked')){focus="score"}
     if($('#choice2').is(':checked')){focus="counts"}
     ordered_dicts = sortByKey(score_dicts, focus)
@@ -149,7 +148,7 @@ function deterministic_cube(dicts){
 		card = ordered_dicts[i]
 		try{types = json_data["data"][card["name"]][0]["types"]}
 		catch(error){
-		console.log("problem with", card)
+		console.log("problem with", card, error)
 		continue}
 		cid = json_data["data"][card["name"]][0]["colorIdentity"]
 		//console.log("ding dong", i, card, types, cid)
@@ -189,9 +188,6 @@ function deterministic_cube(dicts){
     	
     	
     }
-    console.log(ordered_dicts)
-    console.log("kickstart", cube_creatures, cube_noncreatures)
-    console.log("distribution", found_creatures_by_color, found_noncreatures_by_color)
     return cube_creatures.concat(cube_noncreatures)
 }
 
@@ -213,6 +209,7 @@ function gather_all_cards_relevant_to_commanders2(contents){
                 	score_dicts2[card1["name"]]["max_score"] = card1["cond_prob"]
                 }
                 score_dicts2[card1["name"]]["commanders"].push(con1["cname"])
+                score_dicts2[card1["name"]]["readable_commanders"].push(con1["rname"])
                 
             }
             else{
@@ -222,6 +219,7 @@ function gather_all_cards_relevant_to_commanders2(contents){
                 score_dicts2[card1["name"]]["max_score"] = card1["cond_prob"]
                 score_dicts2[card1["name"]]["counts"] = 1
                 score_dicts2[card1["name"]]["commanders"] = [con1["cname"]]
+                score_dicts2[card1["name"]]["readable_commanders"] = [con1["rname"]]
                 
             }
         }
@@ -254,7 +252,6 @@ $(document).ready(function() {
 	$('#select-id').on('change', function (e) {
 		var optionSelected = $("option:selected", this);
 		var valueSelected = this.value;
-		console.log(valueSelected)
 		$("div").removeClass('thick');
    	     $("."+valueSelected).addClass('thick');
 	});
@@ -266,21 +263,22 @@ $(document).ready(function() {
 		a = message.split("\n")
 
 		for (let i = 0; i < a.length; i++){
+			readable_name = String(a[i])
 			a[i] = a[i].replaceAll('\'', '')
 			a[i] = a[i].replaceAll(',', '')
 			a[i] = a[i].replaceAll("\\n", "")
 			a[i] = a[i].toLowerCase().trim().replaceAll(" ", "-")
 			// XXX: Not everyone is in "cleaned_cardlists" yet, do this offline
 			$.getJSON("cubed/cleaned_cardlists/"+ a[i] + ".json", function(data){
-				contents.push(JSON.parse(data));
+				json_obj = JSON.parse(data)
+				json_obj["rname"] = readable_name
+				contents.push(json_obj);
 			}).fail(function(error){
 				console.log("An error has occurred.", i, a[i], error);
 			});
 		}
 
-		console.log("hayayay", contents.length)
 		score_dicts = gather_all_cards_relevant_to_commanders2(contents)
-		console.log("uwu whats this", score_dicts)
 		// make the cube list
 		full_cube = deterministic_cube(score_dicts)
 		
@@ -306,8 +304,7 @@ $(document).ready(function() {
 				} else {
 					cid_tag = cid2[0]
 				}
-				console.log(full_cube[i]["commanders"])
-				$("#"+String(bigtype)+"_"+String(cid_tag)).append($('<div></div>').addClass(full_cube[i]["commanders"]).addClass("tooltip").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html(full_cube[i]["commanders"].join(("<br>"))))).append("<br>")
+				$("#"+String(bigtype)+"_"+String(cid_tag)).append($('<div></div>').addClass(full_cube[i]["commanders"]).addClass("tooltip").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html(full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 
 			}	
 			
@@ -317,8 +314,7 @@ $(document).ready(function() {
 		
 		for (var j = 0; j < contents.length; j++){
 			cname = String(contents[j]["cname"])
-			console.log("hmm", cname)
-			$('#select-id').append($('<option></option>').val(cname).text(cname)); 
+			$('#select-id').append($('<option></option>').val(cname).text(String(contents[j]["rname"]))); 
 		}
 
 	});
