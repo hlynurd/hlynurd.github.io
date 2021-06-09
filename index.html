@@ -118,10 +118,15 @@ function deterministic_cube(dicts){
     found_noncreatures_by_color = [0, 0, 0, 0, 0, 0]
     
     // TODO: Include guild cards
-    found_cards_guilds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    
+    found_cards_guilds_creatures    = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    found_cards_guilds_noncreatures = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    found_lands = 0
     cubesize = $('#cubesize').val()
-    bsize=cubesize/12
+    multi_size = Math.floor(cubesize/100)
+    nmultis_creatures = Array(10).fill(multi_size)
+    nmultis_spells = Array(10).fill(multi_size)
+    bsize=Math.floor((cubesize - multi_size * 20)/12)
+    nlands = (cubesize-bsize*12-multi_size*20)
 	ncreatures = [bsize, bsize, bsize, bsize, bsize, bsize]
 	max_creatures = arrSum(ncreatures)
 	nspells =    [bsize, bsize, bsize, bsize, bsize, bsize]
@@ -141,11 +146,17 @@ function deterministic_cube(dicts){
     }
     score_dicts = score_dicts2
     if($('#choice1').is(':checked')){focus="score"}
-    if($('#choice2').is(':checked')){focus="counts"}
+    if($('#choice2').is(':checked')){focus="counts"}		
+    
+    max_budget = 2
+        if($('#choice1b').is(':checked')){max_budget=0}
+    if($('#choice2b').is(':checked')){max_budget=1}	
+    
     ordered_dicts = sortByKey(score_dicts, focus)
     //console.log("the length", ordered_dicts.length)
     for (var i = 0; i < ordered_dicts.length; i++){
 		card = ordered_dicts[i]
+		if (card["budget"] > max_budget){continue}
 		try{types = json_data["data"][card["name"]][0]["types"]}
 		catch(error){
 		console.log("problem with", card, error)
@@ -153,12 +164,25 @@ function deterministic_cube(dicts){
 		cid = json_data["data"][card["name"]][0]["colorIdentity"]
 		//console.log("ding dong", i, card, types, cid)
 		
-		if (types.includes("Land")){continue}
+		if (types.includes("Land")){
+			if (found_lands < nlands){
+						console.log("yes")
+			if (types.includes("Creature")){
+				cube_creatures.push(card)
+			} else {
+				console.log("adding", card, "to noncreatures")
+				cube_noncreatures.push(card)
+			}
+			found_lands += 1		
+			}
+
+		continue
+		}
 		
 		// if: we want to add the card to the cube
 		if (card["counts"] >= mincounts){
 		
-			// first handle the monocolored cards
+			// first handle the monocolored and colorless cards
 			if (cid.length <= 1){
 				if (cid.length == 1){
 					cidx = colors.indexOf(cid[0])
@@ -179,15 +203,33 @@ function deterministic_cube(dicts){
 					}
 				}
 			}
+			// then do the guilds
+			if (cid.length == 2){
+				cidx = guild_cidx_to_int(cid)
+				if (types.includes("Creature")){
+					if (found_cards_guilds_creatures[cidx] < nmultis_creatures[cidx]){
+						cube_creatures.push(card)
+						found_cards_guilds_creatures[cidx] += 1
+					}
+				}
+				else {
+					if (found_cards_guilds_noncreatures[cidx] < nmultis_spells[cidx]){
+						cube_noncreatures.push(card)
+						found_cards_guilds_noncreatures[cidx] += 1
+					}
+				}
+			}
 		}
 
-    	if (i>3000 || arrSum(found_creatures_by_color) == max_creatures && arrSum(found_noncreatures_by_color) == max_noncreatures){
+    	if (i>5000 || arrSum(found_creatures_by_color) == max_creatures && arrSum(found_noncreatures_by_color) == max_noncreatures && (arrSum(found_cards_guilds_creatures) + arrSum(found_cards_guilds_noncreatures)) == multi_size*20 && found_lands == nlands){
+    		console.log(i>3000, arrSum(found_creatures_by_color) == max_creatures, arrSum(found_noncreatures_by_color) == max_noncreatures,(arrSum(found_cards_guilds_creatures) + arrSum(found_cards_guilds_noncreatures)) == multi_size*20 )
     		console.log("breaking")
     		break
     	}
-    	
+
     	
     }
+    console.log(found_cards_guilds_noncreatures, found_cards_guilds_creatures, found_creatures_by_color, found_noncreatures_by_color)
     return cube_creatures.concat(cube_noncreatures)
 }
 
@@ -302,9 +344,14 @@ $(document).ready(function() {
 				if (cid2.length > 1){
 					cid_tag="multicolored"
 				} else if (cid2.length == 0){
+					console.log("adding somewhere", card, bigtype)
 					cid_tag="colorless"
 				} else {
 					cid_tag = cid2[0]
+				}
+				
+				if (types.includes("Land")){
+					cid_tag = "lands"
 				}
 				$("#"+String(bigtype)+"_"+String(cid_tag)).append($('<div></div>').addClass(full_cube[i]["commanders"]).addClass("tooltip").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html(full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 
@@ -329,8 +376,10 @@ $(document).ready(function() {
 <body>
  
  <div class="demo">
-<p> Commanders: </p>
-  <textarea id="catmessage" rows="10" cols="30">Liesa, Shroud of Dusk
+<div>Commanders:</div>
+<br>
+  <textarea id="catmessage" rows="10" cols="30">
+Liesa, Shroud of Dusk
 Teysa Karlov
 Meren of Clan Nel Toth
 Dina, Soul Steeper
@@ -339,9 +388,19 @@ Firesong and Sunspeaker
 Brudiclad, Telchor Engineer
 Mizzix of the Izmagnus
 Tatyova, Benthic Druid
-Esix, Fractal Bloom</textarea>
+Esix, Fractal Bloom
+Lord Windgrace
+Nicol Bolas
+Marisi, Breaker of the Coil
+Omnath, Locus of the Roil
+Morophon, the Boundless</textarea>
 
 <style>
+
+input[type='number']{
+    width: 80px;
+} 
+
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
@@ -363,19 +422,28 @@ Esix, Fractal Bloom</textarea>
   100% { transform: rotate(360deg); }
 }
 </style>
-  
-  <p>Focus on:</p>
+  <br><br>
+  Focus on:
+  <br>
   <input type="radio" id="choice1" name="focus" value="" checked="checked">
-  <label for="choice1" >Archetypes</label><br>
+  <label for="choice1" >Archetypes</label>
   <input type="radio" id="choice2" name="focus">
   <label for="choice2">Goodstuff</label><br>  
+  <br>
+  Budget:
+  <br>
+  <input type="radio" id="choice1b" name="budget">
+  <label for="choice1b" >Low</label>
+  <input type="radio" id="choice2b" name="budget">
+  <label for="choice2b">As Garfield intended</label>
+    <input type="radio" id="choice3b" name="budget">
+  <label for="choice3b" value="" checked="checked">Whale</label><br>  
+  
+  
   
   <label for="cubesize">Cube size (60-900):</label>
-
-<input type="number" id="cubesize"
+  <input type="number" id="cubesize"
        min="60" max="900" value="120">
-
-  
   <input id="cat" type="submit" value="Make cube"> <div class="loader"></div>
 
   
@@ -397,7 +465,7 @@ Esix, Fractal Bloom</textarea>
 .tg .tg-0lax{text-align:left;vertical-align:top}
 </style>
 
-  <p>Cube list:</p>
+  <div>Cube list:</div>
 
 <table class="tg">
 <thead>
