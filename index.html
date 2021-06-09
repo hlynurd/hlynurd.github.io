@@ -248,6 +248,7 @@ $.ajaxSetup({
 });
 
 $(document).ready(function() {
+	  $(".loader").hide();
 
 	$('#select-id').on('change', function (e) {
 		var optionSelected = $("option:selected", this);
@@ -257,6 +258,7 @@ $(document).ready(function() {
 	});
 
 	$("#cat").click(function() {
+		$(".loader").show();
 		contents = [];
 		var message = $('#catmessage').val();
 
@@ -316,7 +318,7 @@ $(document).ready(function() {
 			cname = String(contents[j]["cname"])
 			$('#select-id').append($('<option></option>').val(cname).text(String(contents[j]["rname"]))); 
 		}
-
+		$(".loader").hide();
 	});
 });
 
@@ -338,6 +340,29 @@ Brudiclad, Telchor Engineer
 Mizzix of the Izmagnus
 Tatyova, Benthic Druid
 Esix, Fractal Bloom</textarea>
+
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
   
   <p>Focus on:</p>
   <input type="radio" id="choice1" name="focus" value="" checked="checked">
@@ -351,7 +376,10 @@ Esix, Fractal Bloom</textarea>
        min="60" max="900" value="120">
 
   
-  <input id="cat" type="submit" value="Make cube">
+  <input id="cat" type="submit" value="Make cube"> <div class="loader"></div>
+
+  
+  
 <br>   
 </div>
  
