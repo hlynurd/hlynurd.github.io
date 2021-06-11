@@ -1,0 +1,107 @@
+<style>
+
+input[type='number']{
+    width: 80px;
+} 
+
+.smallinp{
+  height:34px;
+}
+
+.smallinp2{
+  height:32px;
+}
+
+
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 1s linear infinite; /* Safari */
+  animation: spin 1s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.blocklabel{
+  display:block;
+}
+
+.commanderinput{
+  float:left;
+}
+
+.focusdiv{
+  float:left;}
+
+
+.itemdiv{
+  float:left;
+  padding:5px;
+  margin:5px;
+}
+ 
+ .thick {
+  font-weight: bold;
+}
+
+
+#cubesize{
+  width: 60px;
+}
+ 
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+
+/* Tooltip container */
+.tooltip {
+
+  display: inline-block;
+
+}
+
+#cat{
+  background-color:teal;
+  color:white;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: auto;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 7px;
+  border-radius: 6px;
+  z-index: 1000;	
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 10000	;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  z-index: 1000;
+}
+</style>
+
+
