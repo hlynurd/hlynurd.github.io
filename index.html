@@ -3,6 +3,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-107376230-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-107376230-1');
+</script>
+
 <meta charset="UTF-8">
 <title> Cube generator  </title>
 <script src="jquery-3.3.1.min.js"></script>
@@ -18,21 +28,74 @@
 	<div>Commanders:</div>
 	<br>
 	<div class="commandersdiv">
-		<textarea id="catmessage" class="commanderinput" rows="10" cols="30">Liesa, Shroud of Dusk
+		<textarea id="catmessage" class="commanderinput" rows="10" cols="30">
+Marisi, Breaker of the Coil
+
+Yorion, Sky Nomad
+Medomai the Ageless
+
+Araumi of the Dead Tide
+Taigam, Sidisi's Hand
+
+Kardur, Doomscourge
+
+Svella, Ice Shaper
+Xenagos, God of Revels
+
+Mirri, Weatherlight Duelist
+Nazahn, Revered Blademaster
+
+Liesa, Shroud of Dusk
 Teysa Karlov
-Meren of Clan Nel Toth
-Dina, Soul Steeper
+
+Jhoira, Weatherlight Captain
+Zara, Renegade Recruiter
+
+Glissa, the Traitor
+Sarulf, Realm Eater
+
 Feather, the Redeemed
 Firesong and Sunspeaker
-Brudiclad, Telchor Engineer
-Mizzix of the Izmagnus
-Tatyova, Benthic Druid
+
+Tatyova, Bentic Druid
 Esix, Fractal Bloom
-Lord Windgrace
-Nicol Bolas
-Marisi, Breaker of the Coil
-Omnath, Locus of the Roil
-Morophon, the Boundless</textarea>
+
+Amareth, the Lustrous
+
+Yennett, Cryptic Sovereign
+Sharuum the Hegemon
+
+Kess, Dissident Mage
+Marchesa, the Black Rose
+
+Shattergang Brothers
+Thantis, the Warweaver
+
+Jared Carthalion, True Heir
+Atla Palani, Nest Tender
+
+Alesha, Who Smiles at Death
+Zurgo Helmsmasher
+
+Kalamax, the Stormsire
+
+Tayam, Luminous Enigma
+Colfenor, the Last Yet
+
+Pramikon, Sky Rampart
+Narset, Enlightened Master
+
+The Mimeoplasm
+Yarok, the Desecrated
+
+Yidris, Maelstrom Wanderer
+Saskia the Unyielding	
+Omnath, Locus of Creation
+Atraxa, Praetors' Voice
+Breya, Etherium Shaper
+Tazri, Beacon of Unity
+Karona, False God
+</textarea>
 	</div>
 	<br><br>
 	<div class="itemdiv">
@@ -54,7 +117,7 @@ Morophon, the Boundless</textarea>
 	</div>	  
 	<div class="itemdiv">
 		<label for="cubesize" class="blocklabel">Cube size</label>
-			<input type="number" id="cubesize"  value="180" class="smallinp2"></div>
+			<input type="number" id="cubesize"  value="360" class="smallinp2"></div>
 	</div>
 	<div class="itemdiv">
 		<input id="cat" type="submit" value="MAKE CUBE"> 
@@ -85,25 +148,25 @@ Morophon, the Boundless</textarea>
 <tbody>
   <tr>
     <td class="tg-0la">Creatures</td>
-    <td class="tg-0lax" id="creatures_W"></td>
-    <td class="tg-0lax" id="creatures_U"></td>
-    <td class="tg-0lax" id="creatures_B"></td>
-    <td class="tg-0lax" id="creatures_R"></td>
-    <td class="tg-0lax" id="creatures_G"></td>
-    <td class="tg-0lax" id="creatures_multicolored"></td>
-    <td class="tg-0lax" id="creatures_colorless"></td>
-    <td class="tg-0lax" id="creatures_lands"></td>
+    <td class="tg-0lax whitecube" id="creatures_W"></td>
+    <td class="tg-0lax bluecube" id="creatures_U"></td>
+    <td class="tg-0lax blackcube" id="creatures_B"></td>
+    <td class="tg-0lax redcube" id="creatures_R"></td>
+    <td class="tg-0lax greencube" id="creatures_G"></td>
+    <td class="tg-0lax multicolorcube" id="creatures_multicolored"></td>
+    <td class="tg-0lax colorlesscube" id="creatures_colorless"></td>
+    <td class="tg-0lax landscube" id="creatures_lands"></td>
   </tr>
   <tr>
     <td class="tg-0la">Noncreatures</td>
-    <td class="tg-0lax" id="noncreatures_W"></td>
-    <td class="tg-0lax" id="noncreatures_U"></td>
-    <td class="tg-0lax" id="noncreatures_B"></td>
-    <td class="tg-0lax" id="noncreatures_R"></td>
-    <td class="tg-0lax" id="noncreatures_G"></td>
-    <td class="tg-0lax" id="noncreatures_multicolored"></td>
-    <td class="tg-0lax" id="noncreatures_colorless"></td>
-    <td class="tg-0lax" id="noncreatures_lands"></td>
+    <td class="tg-0lax whitecube" id="noncreatures_W"></td>
+    <td class="tg-0lax bluecube" id="noncreatures_U"></td>
+    <td class="tg-0lax blackcube" id="noncreatures_B"></td>
+    <td class="tg-0lax redcube" id="noncreatures_R"></td>
+    <td class="tg-0lax greencube" id="noncreatures_G"></td>
+    <td class="tg-0lax multicolorcube" id="noncreatures_multicolored"></td>
+    <td class="tg-0lax colorlesscube" id="noncreatures_colorless"></td>
+    <td class="tg-0lax landscube" id="noncreatures_lands"></td>
   </tr>
 </tbody>
 </table>
