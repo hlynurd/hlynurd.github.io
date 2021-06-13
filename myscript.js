@@ -1,6 +1,5 @@
 
- // TODO: Make hover-over on cards to show the list of associated commanders
- // TODO; Make a drop-down list of commanders to highlight their associated cards
+
  var colors          = ["W",  "U", "B", "R", "G", []];
  var contents = [];
 (function($) {
@@ -108,16 +107,16 @@ function deterministic_cube(dicts){
     found_creatures_by_color = [0, 0, 0, 0, 0, 0]
     found_noncreatures_by_color = [0, 0, 0, 0, 0, 0]
     
-    // TODO: Include guild cards
     found_cards_guilds_creatures    = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     found_cards_guilds_noncreatures = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     found_lands = 0
     cubesize = $('#cubesize').val()
-    multi_size = Math.floor(cubesize/100)
+    nlands_min = 0.02 * cubesize
+    multi_size = Math.floor(cubesize/140)
     nmultis_creatures = Array(10).fill(multi_size)
     nmultis_spells = Array(10).fill(multi_size)
-    bsize=Math.floor((cubesize - multi_size * 20)/12)
-    nlands = (cubesize-bsize*12-multi_size*20)
+    bsize=Math.floor((cubesize - multi_size * 20-nlands_min)/12)
+    nlands = (cubesize-bsize*12-multi_size*20+nlands_min)
 	ncreatures = [bsize, bsize, bsize, bsize, bsize, bsize]
 	max_creatures = arrSum(ncreatures)
 	nspells =    [bsize, bsize, bsize, bsize, bsize, bsize]
@@ -143,7 +142,6 @@ function deterministic_cube(dicts){
 
     
     ordered_dicts = sortByKey(score_dicts, focus)
-    //console.log("the length", ordered_dicts.length)
     for (var i = 0; i < ordered_dicts.length; i++){
 		card = ordered_dicts[i]
 		if (card["budget"] > max_budget){continue}
@@ -152,20 +150,29 @@ function deterministic_cube(dicts){
 		console.log("problem with", card, error)
 		continue}
 		cid = json_data["data"][card["name"]][0]["colorIdentity"]
-		//console.log("ding dong", i, card, types, cid)
+		
+		if(textarea_commanders.includes(card["name"])){continue}
+		
+		if (focus == "score"){
+			avg_score = arrSum(card["all_scores"]) / card["all_scores"].length
+		    if (avg_score<0.53){
+		        continue
+		    }
+		    if (cedh_staples.includes(card["name"])){
+		    	continue
+		    }
+		}
 		
 		if (types.includes("Land")){
+			if (card["name"].includes("Snow-Covered")){continue}
 			if (found_lands < nlands){
-						console.log("yes")
 			if (types.includes("Creature")){
 				cube_creatures.push(card)
 			} else {
-				console.log("adding", card, "to noncreatures")
 				cube_noncreatures.push(card)
 			}
 			found_lands += 1		
 			}
-
 		continue
 		}
 		
@@ -236,10 +243,8 @@ function gather_all_cards_relevant_to_commanders2(contents){
             if (card1["name"] in score_dicts2){
 
                 score_dicts2[card1["name"]]["counts"] +=1
-                score_dicts2[card1["name"]]["score"] += card1["cond_prob"]
-                if (card1["cond_prob"] > score_dicts2[card1["name"]]["max_score"]){
-                	score_dicts2[card1["name"]]["max_score"] = card1["cond_prob"]
-                }
+                score_dicts2[card1["name"]]["score"] += Math.pow(card1["cond_prob"], 1.5)
+                score_dicts2[card1["name"]]["all_scores"].push(card1["cond_prob"])
                 score_dicts2[card1["name"]]["commanders"].push(con1["cname"])
                 score_dicts2[card1["name"]]["readable_commanders"].push(con1["rname"])
                 
@@ -248,7 +253,7 @@ function gather_all_cards_relevant_to_commanders2(contents){
                 score_dicts2[card1["name"]] = {}
                 score_dicts2[card1["name"]]["score"] = card1["cond_prob"]
                 score_dicts2[card1["name"]]["budget"] = card1["budget"]
-                score_dicts2[card1["name"]]["max_score"] = card1["cond_prob"]
+                score_dicts2[card1["name"]]["all_scores"] = [card1["cond_prob"]]
                 score_dicts2[card1["name"]]["counts"] = 1
                 score_dicts2[card1["name"]]["commanders"] = [con1["cname"]]
                 score_dicts2[card1["name"]]["readable_commanders"] = [con1["rname"]]
@@ -279,6 +284,8 @@ $.ajaxSetup({
     async: false
 });
 
+var textarea_commanders;
+
 $(document).ready(function() {
 	$(".loader").hide();
 
@@ -289,12 +296,15 @@ $(document).ready(function() {
    	     $("."+valueSelected).addClass('thick');
 	});
 
-	$("#cat").click(function() {
+	$("#cubemake").click(function() {
 		$(".loader").show();
 		contents = [];
-		var message = $('#catmessage').val();
+		var message = $('#commanders_textarea').val();
 
 		a = message.split("\n")
+		console.log("tilbuinn", a)
+		textarea_commanders =[]; //new Array(a);
+		for (cmdr in a){textarea_commanders.push(a[cmdr])}
 
 		for (let i = 0; i < a.length; i++){
 			readable_name = String(a[i])
@@ -334,7 +344,6 @@ $(document).ready(function() {
 				if (cid2.length > 1){
 					cid_tag="multicolored"
 				} else if (cid2.length == 0){
-					console.log("adding somewhere", card, bigtype)
 					cid_tag="colorless"
 				} else {
 					cid_tag = cid2[0]
@@ -351,11 +360,22 @@ $(document).ready(function() {
 		
 		// populate select item with commander names
 		
+			$('#select-id')
+				.find('option')
+				.remove()
+				.end()
+				.append('<option value="nocommanders">None</option>')
+				.val('nocommanders');
+		
 		for (var j = 0; j < contents.length; j++){
 			cname = String(contents[j]["cname"])
+			
+
+						
 			$('#select-id').append($('<option></option>').val(cname).text(String(contents[j]["rname"]))); 
 		}
 		$(".loader").hide();
 	});
 });
 
+var cedh_staples = ['Abrade', 'Abrupt Decay', 'Ad Nauseam', 'Ancient Tomb', 'Animate Dead', 'Arbor Elf', 'Arcane Signet', 'Arid Mesa', "Assassin's Trophy", "Avacyn's Pilgrim", 'Aven Mindcensor', 'Badlands', 'Bayou', 'Birds of Paradise', 'Blood Crypt', 'Bloodstained Mire', 'Bloom Tender', 'Brain Freeze', 'Brainstorm', 'Breeding Pool', 'Cabal Ritual', 'Carpet of Flowers', 'Cavern of Souls', 'Cephalid Coliseum', 'Chain of Vapor', 'Chord of Calling', 'Chrome Mox', 'City of Brass', 'City of Traitors', 'Collector Ouphe', 'Command Tower', 'Copy Artifact', 'Counterspell', 'Crop Rotation', 'Culling the Weak', 'Cursed Totem', 'Cyclonic Rift', 'Dark Confidant', 'Dark Ritual', 'Deathrite Shaman', 'Deflecting Swat', 'Delay', 'Demonic Consultation', 'Demonic Tutor', 'Diabolic Intent', 'Dimir Signet', 'Dispel', 'Dockside Extortionist', "Dovin's Veto", 'Dramatic Reversal', 'Drannith Magistrate', "Eladamri's Call", 'Eldritch Evolution', 'Elves of Deep Shadow', 'Elvish Mystic', 'Elvish Spirit Guide', 'Emergence Zone', 'Enlightened Tutor', 'Entomb', 'Eternal Witness', 'Exotic Orchard', 'Faithless Looting', 'Fellwar Stone', 'Fierce Guardianship', 'Finale of Devastation', 'Flooded Strand', 'Flusterstorm', 'Forbidden Orchard', 'Force of Negation', 'Force of Vigor', 'Force of Will', 'Fyndhorn Elves', "Gaea's Cradle", 'Gamble', 'Gemstone Caverns', 'Gilded Drake', 'Gitaxian Probe', 'Godless Shrine', 'Grand Abolisher', "Green Sun's Zenith", 'Grim Monolith', 'Hallowed Fountain', 'Hullbreacher', 'Imperial Recruiter', 'Imperial Seal', 'Intuition', "Inventors' Fair", 'Isochron Scepter', "Jeska's Will", 'Jeweled Lotus', 'Laboratory Maniac', "Lim-Dûl's Vault", "Lion's Eye Diamond", 'Llanowar Elves', 'Lotus Petal', 'Luxury Suite', 'Mana Confluence', 'Mana Crypt', 'Mana Drain', 'Mana Vault', 'Marsh Flats', 'Mental Misstep', 'Merchant Scroll', 'Miscast', 'Misty Rainforest', 'Morphic Pool', 'Mox Amber', 'Mox Diamond', 'Mox Opal', 'Muddle the Mixture', 'Mystic Remora', 'Mystical Tutor', 'Narset, Parter of Veils', "Narset's Reversal", "Nature's Claim", 'Necromancy', 'Necropotence', 'Neoform', 'Noble Hierarch', 'Notion Thief', 'Noxious Revival', 'Nurturing Peatland', 'Opposition Agent', 'Overgrown Tomb', 'Pact of Negation', 'Peer into the Abyss', 'Phantasmal Image', 'Plateau', 'Polluted Delta', 'Ponder', "Praetor's Grasp", 'Preordain', 'Priest of Titania', 'Prismatic Vista', 'Pyroblast', 'Rain of Filth', 'Ranger-Captain of Eos', 'Reanimate', 'Red Elemental Blast', 'Rejuvenating Springs', 'Rhystic Study', 'Rite of Flame', 'Savannah', 'Scalding Tarn', 'Scrubland', "Sensei's Divining Top", "Sevinne's Reclamation", 'Silence', 'Simian Spirit Guide', 'Smothering Tithe', 'Snap', 'Sol Ring', 'Spell Pierce', 'Spellseeker', 'Spire of Industry', 'Steam Vents', 'Stomping Ground', 'Survival of the Fittest', 'Swan Song', 'Swords to Plowshares', 'Sylvan Library', 'Taiga', 'Tainted Pact', 'Talisman of Creativity', 'Talisman of Dominance', 'Talisman of Indulgence', 'Talisman of Progress', 'Tarnished Citadel', 'Temple Garden', "Thassa's Oracle", 'Thrasios, Triton Hero', 'Timetwister', 'Toxic Deluge', 'Training Center', 'Transmute Artifact', 'Tropical Island', 'Tundra', 'Tymna the Weaver', 'Underground River', 'Underground Sea', 'Undergrowth Stadium', 'Underworld Breach', 'Urborg, Tomb of Yawgmoth', 'Utopia Sprawl', 'Vampiric Tutor', 'Veil of Summer', 'Verdant Catacombs', 'Volcanic Island', 'Waterlogged Grove', 'Watery Grave', 'Wheel of Fortune', 'Wheel of Misfortune', 'Wild Growth', 'Windfall', 'Winds of Rebuke', 'Windswept Heath', 'Wishclaw Talisman', 'Wooded Foothills', 'Worldly Tutor', "Yawgmoth's Will"]

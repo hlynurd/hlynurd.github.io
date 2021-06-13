@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-107376230-1"></script>
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107376230-1"></script> -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -23,15 +24,16 @@
 
 </head>
 <body>
- 
-<div class="form-block">
-	<div>Commanders:</div>
-	<br>
-	<div class="commandersdiv">
-		<textarea id="catmessage" class="commanderinput" rows="10" cols="30">
-Marisi, Breaker of the Coil
 
-Yorion, Sky Nomad
+<div class="sidenav">
+		<div class="itemdiv">
+			<input id="cubemake" type="submit" value="GENERATE CUBE"> 
+		</div>
+		
+				<div class="itemdiv">
+						<label for="commanders_textarea" class="blocklabel" id="commanders_textarea_id">Commanders</label>
+			<textarea id="commanders_textarea" class="commanderinput" rows="10" cols="28">
+<!--Yorion, Sky Nomad
 Medomai the Ageless
 
 Araumi of the Dead Tide
@@ -77,7 +79,7 @@ Atla Palani, Nest Tender
 Alesha, Who Smiles at Death
 Zurgo Helmsmasher
 
-Kalamax, the Stormsire
+Kalamax, the Stormsire-->
 
 Tayam, Luminous Enigma
 Colfenor, the Last Yet
@@ -95,96 +97,94 @@ Atraxa, Praetors' Voice
 Breya, Etherium Shaper
 Tazri, Beacon of Unity
 Karona, False God
-</textarea>
-	</div>
-	<br><br>
-	<div class="itemdiv">
-	
-		<label for="focus" class="blocklabel">Focus on</label>
-		<select name="focus" id="focus-id" class="smallinp">
-			<option value="score" selected="selected" checked="checked">Archetypes</option>
-			<option value="counts">Goodstuff</option>
-		</select>
-	
-	</div>
-	<div class="itemdiv">     
-		<label for="budget" class="blocklabel">Budget</label>
-		<select name="budget" id="budget-id" class="smallinp">
-			<option value="2" selected="selected" checked="checked">Unlimited</option>
-			<option value="1">Medium</option>
-			<option value="0">Low</option>
-		</select>
-	</div>	  
-	<div class="itemdiv">
-		<label for="cubesize" class="blocklabel">Cube size</label>
-			<input type="number" id="cubesize"  value="360" class="smallinp2"></div>
-	</div>
-	<div class="itemdiv">
-		<input id="cat" type="submit" value="MAKE CUBE"> 
-	</div>
-	<div class="itemdiv">
-		<div class="loader"></div>
-	</div>
+			</textarea>
+		</div>
+		<div class="itemdiv">
+			<label for="cubesize" class="blocklabel">Cube size</label>
+			<input type="number" id="cubesize"  value="360" class="smallinp2">
+		</div>
+		<div class="itemdiv">
+			<label for="focus" class="blocklabel">Focus on</label>
+			<select name="focus" id="focus-id" class="smallinp">
+				<option value="score" selected="selected" checked="checked">Archetypes</option>
+				<option value="counts">Goodstuff</option>
+			</select>
+		</div>
+		
+		<div class="itemdiv">     
+			<label for="budget" class="blocklabel">Budget</label>
+			<select name="budget" id="budget-id" class="smallinp">
+				<option value="2" selected="selected" checked="checked">Unlimited</option>
+				<option value="1">Medium</option>
+				<option value="0">Low</option>
+			</select>
+		</div>	  
+		
+		<div class="itemdiv">     
+	  <label for="highlight">Highlight</label>
+	  <select name="highlight" id="select-id">
+		  <option value="nocommanders"><i>Generate cube first</i></option>
+	  </select>
+	  </div>
+	  
+	  
+  <a href="#contact">Contact</a>
 </div>
- 
 
-<br> <br> <br> <br><br><br><br><br><br><br>
-  <div>Cube list:</div>
+<div class="main">
+	 
+	<div class="form-block">
+		<div class="itemdiv">
+			<div class="loader"></div>
+		</div>
+	</div>
+	 
+	  <div>Cube list</div>
 
-<table class="tg">
-<thead>
-  <tr>
-    <th class="tg-0lax"></th>
-    <th class="tg-0la">White</th>
-    <th class="tg-0la">Blue</th>
-    <th class="tg-0la">Black</th>
-    <th class="tg-0la">Red</th>
-    <th class="tg-0la">Green</th>
-    <th class="tg-0la">Multicolored</th>
-    <th class="tg-0la">Colorless</th>
-    <th class="tg-0la">Lands</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td class="tg-0la">Creatures</td>
-    <td class="tg-0lax whitecube" id="creatures_W"></td>
-    <td class="tg-0lax bluecube" id="creatures_U"></td>
-    <td class="tg-0lax blackcube" id="creatures_B"></td>
-    <td class="tg-0lax redcube" id="creatures_R"></td>
-    <td class="tg-0lax greencube" id="creatures_G"></td>
-    <td class="tg-0lax multicolorcube" id="creatures_multicolored"></td>
-    <td class="tg-0lax colorlesscube" id="creatures_colorless"></td>
-    <td class="tg-0lax landscube" id="creatures_lands"></td>
-  </tr>
-  <tr>
-    <td class="tg-0la">Noncreatures</td>
-    <td class="tg-0lax whitecube" id="noncreatures_W"></td>
-    <td class="tg-0lax bluecube" id="noncreatures_U"></td>
-    <td class="tg-0lax blackcube" id="noncreatures_B"></td>
-    <td class="tg-0lax redcube" id="noncreatures_R"></td>
-    <td class="tg-0lax greencube" id="noncreatures_G"></td>
-    <td class="tg-0lax multicolorcube" id="noncreatures_multicolored"></td>
-    <td class="tg-0lax colorlesscube" id="noncreatures_colorless"></td>
-    <td class="tg-0lax landscube" id="noncreatures_lands"></td>
-  </tr>
-</tbody>
-</table>
+	<table class="tg">
+	<thead>
+	  <tr>
+		<th class="tg-0lax"></th>
+		<th class="tg-0la whitecube">White</th>
+		<th class="tg-0la bluecube">Blue</th>
+		<th class="tg-0la blackcube">Black</th>
+		<th class="tg-0la redcube">Red</th>
+		<th class="tg-0la greencube">Green</th>
+		<th class="tg-0la multicolorcube">Multicolored</th>
+		<th class="tg-0la colorlesscube">Colorless</th>
+		<th class="tg-0la landscube">Lands</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+		<td class="tg-0la">Creatures</td>
+		<td class="tg-0lax" id="creatures_W"></td>
+		<td class="tg-0lax" id="creatures_U"></td>
+		<td class="tg-0lax" id="creatures_B"></td>
+		<td class="tg-0lax" id="creatures_R"></td>
+		<td class="tg-0lax" id="creatures_G"></td>
+		<td class="tg-0lax" id="creatures_multicolored"></td>
+		<td class="tg-0lax" id="creatures_colorless"></td>
+		<td class="tg-0lax" id="creatures_lands"></td>
+	  </tr>
+	  <tr>
+		<td class="tg-0la">Noncreatures</td>
+		<td class="tg-0lax" id="noncreatures_W"></td>
+		<td class="tg-0lax" id="noncreatures_U"></td>
+		<td class="tg-0lax" id="noncreatures_B"></td>
+		<td class="tg-0lax" id="noncreatures_R"></td>
+		<td class="tg-0lax" id="noncreatures_G"></td>
+		<td class="tg-0lax" id="noncreatures_multicolored"></td>
+		<td class="tg-0lax" id="noncreatures_colorless"></td>
+		<td class="tg-0lax" id="noncreatures_lands"></td>
+	  </tr>
+	</tbody>
+	</table>
 
-<br>
-
-
-
-  <label for="cars">Highlight cards associated with: </label>
-  <select name="cars" id="select-id">
-      <option value="nocommanders">Any</option>
-
-  </select>
-
-<br><br>
+	<br>
 
 
 
-
+</div>
 </body>
 </html>

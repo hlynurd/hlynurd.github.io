@@ -4,6 +4,18 @@ input[type='number']{
     width: 80px;
 } 
 
+@font-face {
+  font-family: montserrat;
+  src: url(Montserrat-SemiBold.ttf);
+}
+
+html{
+	font-family: montserrat !important; /*"Montserrat-SemiBold", sans-serif !important;*/
+	color: rgb(34, 34, 34);
+}
+
+body{background-color: rgb(247, 247, 247);	}
+
 .smallinp{
   height:34px;
 }
@@ -11,6 +23,7 @@ input[type='number']{
 .smallinp2{
   height:32px;
 }
+
 
 
 
@@ -39,6 +52,10 @@ input[type='number']{
   display:block;
 }
 
+.commandersdiv{
+	overflow:hidden;
+}
+
 .commanderinput{
   float:left;
 }
@@ -48,26 +65,116 @@ input[type='number']{
 
 
 .itemdiv{
-  float:left;
   padding:5px;
-  margin:5px;
 }
  
  .thick {
   font-weight: bold;
 }
 
+#commanders_textarea_id{
+	font-size: 22px;
+}
+
+.sidenav {
+  height: 100%;
+  width: 260px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(11, 11, 51);
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav label{
+  text-decoration: none;
+  font-size: 18px;
+  color: rgb(160, 160, 160) !important;
+  display: block;
+  margin-bottom: 2px;
+}
+
+	
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: rgb(150, 150, 150);
+  display: block;
+}
+
+.sidenav .itemdiv {
+  padding: 3px 2px 3px 8px;
+  text-decoration: none;
+  overflow: hidden;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 260px; /* Same as the width of the sidenav */
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+.blackcube{
+	background-color: rgba(79, 54, 99, 0.15)
+}
+
+.bluecube{
+	background-color: rgba(179, 199, 255, 0.35)
+}
+
+.redcube{
+	background-color: rgba(250, 150, 150, 0.35)
+}
+
+.greencube{
+	background-color: rgba(150, 250, 150, 0.35)
+}
+
+.whitecube{
+	background-color: rgba(240, 240, 120, 0.35)
+}
+
+.multicolorcube{
+	background-color: rgba(255, 165, 0, 0.2)
+}
+
+.colorlesscube{
+	background-color: rgba(90, 90, 90, 0.1)
+}
+
+.landscube{
+	background-color: rgba(71, 40, 11, 0.15)
+}
+
+
 
 #cubesize{
   width: 60px;
 }
  
-.tg  {border-collapse:collapse;border-spacing:0;}
+.tg  {border-collapse:collapse;border-spacing:0; background-color: white; box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);}
 .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-0lax{text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top; }
+
+td {width:160px;}
+th {width:160px;}
 
 /* Tooltip container */
 .tooltip {
@@ -76,9 +183,15 @@ input[type='number']{
 
 }
 
-#cat{
-  background-color:teal;
+#cubemake{
+  background-color:navy;
   color:white;
+  height:50px;
+
+  font-weight: 600;
+  font-size: 22px; 
+  cursor:pointer;
+
 }
 
 /* Tooltip text */
