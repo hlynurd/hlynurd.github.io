@@ -1,7 +1,8 @@
-// TODO: Add "export" button for cube list
-//TODO: cleanly separate "highlight" from the cube generation part
-//TODO: Highlight should only appear after cube is generated
-//TODO: Add more advanced analytics per-commander (maybe move the 'highlight' functionality here)
+//([TODO: Add more advanced analytics per-commander (maybe move the 'highlight' functionality here)]
+// TODO: Write opening blurb
+//TODO: Add logo and random name
+// TODO: Center loader
+//TODO: Show this to people
  var colors          = ["W",  "U", "B", "R", "G", []];
  var contents = [];
 (function($) {
@@ -290,6 +291,17 @@ var textarea_commanders;
 
 $(document).ready(function() {
 	$(".loader").hide();
+	
+	$("a#programatically").click(function(){
+		var now = "";
+		if (full_cube == undefined){now = "Make a cube first!"}
+		else {
+			for (var i = 0; i < full_cube.length; i++){
+				now = now + full_cube[i]["name"] + "\n"
+			}
+		}
+		this.href = "data:text/plain;charset=UTF-8,"  + encodeURIComponent(now);
+	});
 
 	$('#select-id').on('change', function (e) {
 		var optionSelected = $("option:selected", this);
@@ -333,6 +345,9 @@ $(document).ready(function() {
 		
 		// reset the table new
 		$("ul").empty()
+		
+		// Reveal the colored columns
+		$(".list-column").show()
 		
 		// populate the table with the cube cards
 		for (var i = 0; i < full_cube.length; i++){

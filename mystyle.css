@@ -5,15 +5,30 @@ input[type='number']{
 } 
 
 @font-face {
-  font-family: montserrat;
+  font-family: montserrat-bold;
   src: url(Montserrat-SemiBold.ttf);
 }
 
+@font-face {
+  font-family: montserrat-regular;
+  src: url(Montserrat-Regular.ttf);
+}
+
 html{
-	font-family: montserrat !important; /*"Montserrat-SemiBold", sans-serif !important;*/
+	font-family: montserrat-regular !important; /*"Montserrat-SemiBold", sans-serif !important;*/
 	color: rgb(34, 34, 34);
 }
 
+textarea{
+font-family: montserrat-regular !important;
+padding: 8px 16px 8px 16px;
+line-height: 1.5;
+}
+
+
+select{
+font-family: montserrat-regular !important;
+}
 body{background-color: rgb(247, 247, 247);	}
 
 .smallinp{
@@ -51,17 +66,20 @@ display:flex;
 
 ul{
 	margin-top:2px;
+	padding-left: 8px;
 }
 
 .bigtitle{
+	font-family: montserrat-bold;
 	text-align: center;
-	font-size: 20px;
+	font-size: 22px;
 	margin-bottom: 6px;
 }
 
 .list-column{
-	padding:4px;
-	margin:4px;
+	display:none;
+	padding:32px;
+	margin:8px;
 	font-size: 14px;
 	width:22%;
 	overflow: hidden;
@@ -101,12 +119,14 @@ ul{
 
 
 .blocklabel{
+font-family: montserrat-bold;
   display:block;
 }
 
 .subtitle{
+text-transform: uppercase;
+font-family: montserrat-bold;
 font-size: 16px;
-	border-bottom: 1px solid;
 padding-bottom: 2px;
 padding-top: 2px;
 margin-bottom: 4px;
@@ -136,34 +156,28 @@ margin-top: 2px;
   float:left;}
 
 
-.itemdiv{
-  padding:5px;
-}
- 
+
  .thick {
   font-weight: bold;
-}
-
-#commanders_textarea_id{
-	font-size: 22px;
+  font-family: montserrat-bold;
 }
 
 .sidenav {
+background-color:#f3f3f1;
   height: 100%;
   width: 260px;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: rgb(11, 11, 51);
   overflow-x: hidden;
-  padding-top: 20px;
+	padding:28px 64px 28px 64px;
 }
 
 .sidenav label{
   text-decoration: none;
   font-size: 18px;
-  color: rgb(160, 160, 160) !important;
+  color: rgb(80, 80, 80) !important;
   display: block;
   margin-bottom: 2px;
 }
@@ -173,12 +187,12 @@ margin-top: 2px;
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 20px;
-  color: rgb(150, 150, 150);
+  color: rgb(80, 80, 80);
   display: block;
 }
 
 .sidenav .itemdiv {
-  padding: 3px 2px 3px 8px;
+  padding: 16px 2px 16px 8px;
   text-decoration: none;
   overflow: hidden;
   font-size: 20px;
@@ -193,11 +207,11 @@ margin-top: 2px;
 div.separate{
 	margin-top: 10px; 
 	padding-top: 5px;
-	border-top: 2px solid rgb(100, 100, 100);
+	border-top: 2px solid rgb(220, 220, 220);
 }
 
 .main {
-  margin-left: 260px; /* Same as the width of the sidenav */
+  margin-left: 380px; /* Same as the width of the sidenav */
   font-size: 28px; /* Increased text to enable scrolling */
   padding: 0px 10px;
 }
@@ -208,16 +222,17 @@ div.separate{
 }
 
 /* colors for each color */
-.blackcube{background-color: rgba(79, 54, 99, 0.13)}
-.bluecube{background-color: rgba(179, 199, 255, 0.32)}
-.redcube{background-color: rgba(250, 150, 150, 0.32)}
-.greencube{background-color: rgba(150, 250, 150, 0.27)}
-.whitecube{background-color: rgba(240, 240, 120, 0.27)}
-.multicolorcube{background-color: rgba(255, 165, 0, 0.18)}
+.blackcube{background-color: #c6bbc0}
+.bluecube{background-color: #b7c9d6}
+.redcube{background-color: #ef9999}
+.greencube{background-color: #dde6d2}
+.whitecube{background-color: #ede3ce}
+.multicolorcube{background-color: #fae7a8}
 .colorlesscube{background-color: rgba(90, 90, 90, 0.09)}
 .landscube{background-color: rgba(71, 40, 11, 0.13)}
 
 #cubesize{
+font-family: montserrat-regular;
   width: 60px;
 }
  
@@ -238,16 +253,43 @@ th {width:160px;}
 
 }
 
-#cubemake{
-  background-color:navy;
-  color:white;
-  height:50px;
 
-  font-weight: 600;
-  font-size: 22px; 
+
+#cubemake{
+font-family: montserrat-bold;
+  background-color:#c8defc;
+  color: #7d9bc9;
+  height:50px;
+  border-radius: 50px;
+  width:100%;
+  font-weight: 300;
+  font-size: 20px; 
   cursor:pointer;
+  	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	border:0;
 
 }
+#programatically{
+font-family: montserrat-bold;
+  background-color:#c8defc;
+  color: #7d9bc9;
+  height:50px;
+  border-radius: 50px;
+  width:100%;
+  font-weight: 300;
+  font-size: 20px; 
+  cursor:pointer;
+  	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	border:0;
+
+}
+
+
+/*<a id="programatically" href="" download="generated_cube.txt">Export cube</a>*/
 
 /* Tooltip text */
 .tooltip .tooltiptext {

@@ -26,10 +26,7 @@
 <body>
 
 <div class="sidenav">
-		<div class="itemdiv">
-			<input id="cubemake" type="submit" value="GENERATE CUBE"> 
-		</div>
-		
+
 				<div class="itemdiv">
 						<label for="commanders_textarea" class="blocklabel" id="commanders_textarea_id">Commanders</label>
 			<textarea id="commanders_textarea" class="commanderinput" rows="10" cols="28">
@@ -76,21 +73,29 @@ Tayam, Luminous Enigma
 			</select>
 		</div>	  
 		
+		<div class="itemdiv">
+			<input id="cubemake" type="submit" value="GENERATE CUBE"> 
+		</div>
+		
+		
 		<div class="itemdiv separate">     	
-	  <label for="highlight">Highlight</label>
+	  <label for="highlight" class="blocklabel">Highlight</label>
 	  <select name="highlight" id="select-id">
 		  <option value="nocommanders"><i>Generate cube first</i></option>
 	  </select>
 	  </div>
-	  
-	  
+	  <div class="itemdiv">
+			<input id="programatically" type="submit" href="" download="generated_cube.txt" value="EXPORT CUBE">  	
+		</div>
+	
+		  
   <a href="#contact">Contact</a>
 </div>
 
 <div class="main">
 	 
 	<div class="form-block">
-		<div class="itemdiv">
+		<div style="width:100%">
 			<div class="loader"></div>
 		</div>
 	</div>
