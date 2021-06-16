@@ -5,7 +5,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-107376230-1"></script> 
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107376230-1"></script> -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -33,39 +33,26 @@
 				<div class="itemdiv">
 						<label for="commanders_textarea" class="blocklabel" id="commanders_textarea_id">Commanders</label>
 			<textarea id="commanders_textarea" class="commanderinput" rows="10" cols="28">
-Yennett, Cryptic Sovereign
-Sharuum the Hegemon
-
-Kess, Dissident Mage
+Aminatou, the Fateshifter
+Alela, Artful Provocateur
+Inalla, Archmage Ritualist
 Marchesa, the Black Rose
-
+Lord Windgrace
 Shattergang Brothers
-Thantis, the Warweaver
-
-Jared Carthalion, True Heir
+Ghired, Conclave Exile
 Atla Palani, Nest Tender
-
-Alesha, Who Smiles at Death
-Zurgo Helmsmasher
-
+Roon of the Hidden Realm
+Tuvasa the Sunlit
 Kalamax, the Stormsire
-
-Tayam, Luminous Enigma
-Colfenor, the Last Yet
-
-Pramikon, Sky Rampart
+Riku of Two Reflections
+Alesha, who Smiles at Death
+Kelsien, the Plague
+Muldrotha, the Gravetide
+Sidisi, Brood Tyrant
+Kykar, Wind's Fury
 Narset, Enlightened Master
-
-The Mimeoplasm
-Yarok, the Desecrated
-
-Yidris, Maelstrom Wanderer
-Saskia the Unyielding	
-Omnath, Locus of Creation
-Atraxa, Praetors' Voice
-Breya, Etherium Shaper
-Tazri, Beacon of Unity
-Karona, False God
+Ghave, Guru of Spores
+Tayam, Luminous Enigma
 			</textarea>
 		</div>
 		<div class="itemdiv">
@@ -89,14 +76,16 @@ Karona, False God
 			</select>
 		</div>	  
 		
-		<div class="itemdiv">     
+		<div class="itemdiv separate">     	
 	  <label for="highlight">Highlight</label>
 	  <select name="highlight" id="select-id">
 		  <option value="nocommanders"><i>Generate cube first</i></option>
 	  </select>
 	  </div>
 	  
-	 </div>
+	  
+  <a href="#contact">Contact</a>
+</div>
 
 <div class="main">
 	 
@@ -105,52 +94,357 @@ Karona, False God
 			<div class="loader"></div>
 		</div>
 	</div>
-	 
-	  <div>Cube list</div>
-
-	<table class="tg">
-	<thead>
-	  <tr>
-		<th class="tg-0lax"></th>
-		<th class="tg-0la whitecube">White</th>
-		<th class="tg-0la bluecube">Blue</th>
-		<th class="tg-0la blackcube">Black</th>
-		<th class="tg-0la redcube">Red</th>
-		<th class="tg-0la greencube">Green</th>
-		<th class="tg-0la multicolorcube">Multicolored</th>
-		<th class="tg-0la colorlesscube">Colorless</th>
-		<th class="tg-0la landscube">Lands</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  <tr>
-		<td class="tg-0la">Creatures</td>
-		<td class="tg-0lax" id="creatures_W"></td>
-		<td class="tg-0lax" id="creatures_U"></td>
-		<td class="tg-0lax" id="creatures_B"></td>
-		<td class="tg-0lax" id="creatures_R"></td>
-		<td class="tg-0lax" id="creatures_G"></td>
-		<td class="tg-0lax" id="creatures_multicolored"></td>
-		<td class="tg-0lax" id="creatures_colorless"></td>
-		<td class="tg-0lax" id="creatures_lands"></td>
-	  </tr>
-	  <tr>
-		<td class="tg-0la">Noncreatures</td>
-		<td class="tg-0lax" id="noncreatures_W"></td>
-		<td class="tg-0lax" id="noncreatures_U"></td>
-		<td class="tg-0lax" id="noncreatures_B"></td>
-		<td class="tg-0lax" id="noncreatures_R"></td>
-		<td class="tg-0lax" id="noncreatures_G"></td>
-		<td class="tg-0lax" id="noncreatures_multicolored"></td>
-		<td class="tg-0lax" id="noncreatures_colorless"></td>
-		<td class="tg-0lax" id="noncreatures_lands"></td>
-	  </tr>
-	</tbody>
-	</table>
-
-	<br>
 
 
+	<div class="display-block">
+		<div class="first-row">
+			<div class="list-column whitecube"">
+				<div class="bigtitle"> White </div>
+							<div id="creatures2_W-container" style="display:none;">
+				<div class="subtitle"> Creatures </div>
+				<ul id="creatures2_W"></ul>
+				</div>
+				
+								<div id="instants2_W-container" style="display:none;">
+				<div class="subtitle"> Instants </div>
+				<ul id="instants2_W"></ul>
+				</div>
+				
+								<div id="sorceries2_W-container" style="display:none;">
+				<div class="subtitle"> Sorceries </div>
+				<ul id="sorceries2_W"></ul>
+				</div>
+				
+								<div id="artifacts2_W-container" style="display:none;">
+				<div class="subtitle"> Artifacts	 </div>
+				<ul id="artifacts2_W"></ul>
+				</div>
+				
+								<div id="enchantments2_W-container" style="display:none;">
+				<div class="subtitle"> Enchantments	 </div>
+				<ul id="enchantments2_W"></ul>
+				</div>
+				
+								<div id="planeswalkers2_W-container" style="display:none;">
+				<div class="subtitle"> Planeswalkers	 </div>
+				<ul id="planeswalkers2_W"></ul>
+				</div>
+				
+								<div id="noncreatures2_W-container" style="display:none;">
+				<div class="subtitle"> Noncreatures </div>
+				<ul id="noncreatures2_W"></ul>
+				</div>
+			</div>
+			
+			<div class="list-column bluecube"">
+				<div class="bigtitle"> Blue </div>
+							
+				<div id="creatures2_U-container" style="display:none;">
+				<div class="subtitle"> Creatures </div>
+				<ul id="creatures2_U"></ul>
+				</div>
+				
+				<div id="instants2_U-container" style="display:none;">
+				<div class="subtitle"> Instants </div>
+				<ul id="instants2_U"></ul>
+				</div>
+				
+				<div id="sorceries2_U-container" style="display:none;">
+				<div class="subtitle"> Sorceries </div>
+				<ul id="sorceries2_U"></ul>
+				</div>
+				
+				<div id="artifacts2_U-container" style="display:none;">
+				<div class="subtitle"> Artifacts	 </div>
+				<ul id="artifacts2_U"></ul>
+				</div>
+				
+				<div id="enchantments2_U-container" style="display:none;">
+				<div class="subtitle"> Enchantments	 </div>
+				<ul id="enchantments2_U"></ul>
+				</div>
+				
+				<div id="planeswalkers2_U-container" style="display:none;">
+				<div class="subtitle"> Planeswalkers	 </div>
+				<ul id="planeswalkers2_U"></ul>
+				</div>
+				
+				<div id="noncreatures2_U-container" style="display:none;">
+				<div class="subtitle"> Noncreatures </div>
+				<ul id="noncreatures2_U"></ul>
+				</div>
+				
+			</div>
+			
+			<div class="list-column blackcube"">
+							<div class="bigtitle"> Black </div>
+							<div id="creatures2_B-container" style="display:none;">
+				<div class="subtitle"> Creatures </div>
+				<ul id="creatures2_B"></ul>
+				</div>
+				
+															<div id="instants2_B-container" style="display:none;">
+				<div class="subtitle"> Instants </div>
+				<ul id="instants2_B"></ul>
+				</div>
+				
+				<div id="sorceries2_B-container" style="display:none;">
+					<div class="subtitle"> Sorceries </div>
+					<ul id="sorceries2_B"></ul>
+				</div>
+				
+				<div id="artifacts2_B-container" style="display:none;">
+					<div class="subtitle"> Artifacts</div>
+					<ul id="artifacts2_B"></ul>
+				</div>
+				
+				<div id="enchantments2_B-container" style="display:none;">
+				<div class="subtitle"> Enchantments	 </div>
+				<ul id="enchantments2_B"></ul>
+				</div>
+				
+				<div id="planeswalkers2_B-container" style="display:none;">
+				<div class="subtitle"> Planeswalkers	 </div>
+				<ul id="planeswalkers2_B"></ul>
+				</div>
+				
+				<div id="noncreatures2_B-container" style="display:none;">
+				<div class="subtitle"> Noncreatures </div>
+				<ul id="noncreatures2_B"></ul>
+				</div>
+			</div>
+			
+			<div class="list-column redcube"">
+								<div class="bigtitle"> Red </div>
+								
+				<div id="creatures2_R-container" style="display:none;">
+				<div class="subtitle"> Creatures </div>
+				<ul id="creatures2_R">
+				</div>
+				</ul>
+				
+				<div id="instants2_R-container" style="display:none;">
+				<div class="subtitle"> Instants </div>
+				<ul id="instants2_R">
+				</ul>
+				</div>
+				<div id="sorceries2_R-container" style="display:none;">
+				<div class="subtitle"> Sorceries </div>
+				<ul id="sorceries2_R">
+				</ul>
+				</div>
+				<div id="artifacts2_R-container" style="display:none;">
+				<div class="subtitle"> Artifacts	 </div>
+				<ul id="artifacts2_R">
+				</ul>
+				</div>
+				<div id="enchantments2_R-container" style="display:none;">
+				<div class="subtitle"> Enchantments	 </div>
+				<ul id="enchantments2_R">
+				</ul>
+				</div>
+				<div id="planeswalkers2_R-container" style="display:none;">
+				<div class="subtitle"> Planeswalkers	 </div>
+				<ul id="planeswalkers2_R">
+				</ul>
+				</div>
+				
+								<div id="noncreatures2_R-container" style="display:none;">
+				<div class="subtitle"> Noncreatures </div>
+				<ul id="noncreatures2_R">
+				</ul>
+				</div>
+			</div>
+		</div>
+		<div class="second-row">
+			<div class="list-column greencube"">
+							<div class="bigtitle"> Green </div>
+							
+				<div id="creatures2_G-container" style="display:none;">
+				<div class="subtitle"> Creatures </div>
+				<ul id="creatures2_G">
+				</ul>
+				</div>
+			
+				<div id="instants2_G-container" style="display:none;">
+				<div class="subtitle"> Instants </div>				
+				<ul id="instants2_G">
+				</ul>
+				</div>
+				
+				<div id="sorceries2_G-container" style="display:none;">
+				<div class="subtitle"> Sorceries </div>
+				<ul id="sorceries2_G">
+				</ul>
+				</div>
+				
+				<div id="artifacts2_G-container" style="display:none;">
+				<div class="subtitle"> Artifacts	 </div>
+				<ul id="artifacts2_G">
+				</ul>
+				</div>
+				
+				<div id="enchantments2_G-container" style="display:none;">
+				<div class="subtitle"> Enchantments	 </div>
+				<ul id="enchantments2_G">
+				</ul>
+				</div>
+				
+				<div id="planeswalkers2_G-container" style="display:none;">
+				<div class="subtitle"> Planeswalkers	 </div>
+				<ul id="planeswalkers2_G">
+				</ul>
+				</div>
+				
+				<div id="noncreatures2_G-container" style="display:none;">
+				<div class="subtitle"> Noncreatures </div>
+				<ul id="noncreatures2_G">
+				</ul>
+				</div>
+			</div>
+			
+			<div class="list-column multicolorcube"">
+							<div class="bigtitle"> Multicolored </div>
+							
+				<div id="creatures2_multicolored-container" style="display:none;">
+				<div class="subtitle"> Creatures </div>
+				<ul id="creatures2_multicolored">
+				</ul>
+				</div>
+				
+				<div id="instants2_multicolored-container" style="display:none;">
+				<div class="subtitle"> Instants </div>
+				<ul id="instants2_multicolored">
+				</ul>
+				</div>
+				
+				<div id="sorceries2_multicolored-container" style="display:none;">
+				<div class="subtitle"> Sorceries </div>
+				<ul id="sorceries2_multicolored">
+				</ul>
+				</div>
+				
+				<div id="artifacts2_multicolored-container" style="display:none;">
+				<div class="subtitle"> Artifacts	 </div>
+				<ul id="artifacts2_multicolored">
+				</ul>
+				</div>
+				
+				<div id="enchantments2_multicolored-container" style="display:none;">
+				<div class="subtitle"> Enchantments	 </div>
+				<ul id="enchantments2_multicolored">
+				</ul>
+				</div>
+				
+				<div id="planeswalkers2_multicolored-container" style="display:none;">
+				<div class="subtitle"> Planeswalkers	 </div>
+				<ul id="planeswalkers2_multicolored">
+				</ul>
+				</div>
+				
+				<div id="noncreatures2_multicolored-container" style="display:none;">
+				<div class="subtitle"> Noncreatures </div>
+				<ul id="noncreatures2_multicolored">
+				</ul>
+				</div>
+			</div>
+			
+			<div class="list-column colorlesscube"">
+				<div class="bigtitle"> Colorless </div>
+							
+				<div id="creatures2_colorless-container" style="display:none;">
+				<div class="subtitle"> Creatures </div>
+				<ul id="creatures2_colorless">
+				</ul>
+				</div>
+				
+				<div id="instants2_colorless-container" style="display:none;">
+				<div class="subtitle"> Instants </div>
+				<ul id="instants2_colorless">
+				</ul>
+				</div>
+				
+				<div id="sorceries2_colorless-container" style="display:none;">
+				<div class="subtitle"> Sorceries </div>
+				<ul id="sorceries2_colorless">
+				</ul>
+				</div>
+				
+				<div id="artifacts2_colorless-container" style="display:none;">
+				<div class="subtitle"> Artifacts	 </div>
+				<ul id="artifacts2_colorless">
+				</ul>
+				</div>
+				
+				<div id="enchantments2_colorless-container" style="display:none;">
+				<div class="subtitle"> Enchantments	 </div>
+				<ul id="enchantments2_colorless">
+				</ul>
+				</div>
+				
+				<div id="planeswalkers2_colorless-container" style="display:none;">
+				<div class="subtitle"> Planeswalkers	 </div>
+				<ul id="planeswalkers2_colorless">
+				</ul>
+				</div>
+				
+				<div id="noncreatures2_colorless-container" style="display:none;">
+				<div class="subtitle"> Noncreatures </div>
+				<ul id="noncreatures2_colorless">
+				</ul>
+				</div>
+			</div>
+			
+			<div class="list-column landscube"">
+							<div class="bigtitle"> Lands </div>
+							
+							
+				<div id="creatures2_lands-container" style="display:none;">
+				<div class="subtitle"> Creatures </div>
+				<ul id="creatures2_lands">
+				</ul>
+				</div>
+			
+				<div id="instants2_lands-container" style="display:none;">
+				<div class="subtitle"> Instants </div>				
+				<ul id="instants2_lands">
+				</ul>
+				</div>
+				
+				<div id="sorceries2_lands-container" style="display:none;">
+				<div class="subtitle"> Sorceries </div>
+				<ul id="sorceries2_lands">
+				</ul>
+				</div>
+				
+				<div id="artifacts2_lands-container" style="display:none;">
+				<div class="subtitle"> Artifacts	 </div>
+				<ul id="artifacts2_lands">
+				</ul>
+				</div>
+				
+				<div id="enchantments2_lands-container" style="display:none;">
+				<div class="subtitle"> Enchantments	 </div>
+				<ul id="enchantments2_lands">
+				</ul>
+				</div>
+				
+				<div id="planeswalkers2_lands-container" style="display:none;">
+				<div class="subtitle"> Planeswalkers	 </div>
+				<ul id="planeswalkers2_lands">
+				</ul>
+				</div>
+				
+				<div id="noncreatures2_lands-container" style="display:none;">
+				<div class="subtitle"> &nbsp; </div>
+				<ul id="noncreatures2_lands">
+				</ul>
+				</div>
+				
+				
+			</div>
+		<div>
+	</div>
 
 </div>
 </body>

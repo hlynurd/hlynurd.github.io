@@ -37,6 +37,55 @@ body{background-color: rgb(247, 247, 247);	}
   animation: spin 1s linear infinite;
 }
 
+/* new list column layout */
+
+.first-row{
+display:flex;
+	overflow:auto; 
+}
+
+.second-row{
+	display:flex; 
+	overflow:auto;
+}
+
+ul{
+	margin-top:2px;
+}
+
+.bigtitle{
+	text-align: center;
+	font-size: 20px;
+	margin-bottom: 6px;
+}
+
+.list-column{
+	padding:4px;
+	margin:4px;
+	font-size: 14px;
+	width:22%;
+	overflow: hidden;
+	float:left;
+	 box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+.display-block{
+	display:block;
+}
+
+.newli{
+    display: inline-block;
+    vertical-align: top;
+
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+		list-style-type:none;
+	    padding: 1px 2px;
+    width:90%;
+}
+
+
 /* Safari */
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }
@@ -48,8 +97,31 @@ body{background-color: rgb(247, 247, 247);	}
   100% { transform: rotate(360deg); }
 }
 
+
+
+
 .blocklabel{
   display:block;
+}
+
+.subtitle{
+font-size: 16px;
+	border-bottom: 1px solid;
+padding-bottom: 2px;
+padding-top: 2px;
+margin-bottom: 4px;
+margin-top: 2px;
+}
+
+.tooltipcard{
+	border-top: 0px !important;
+	border-right: 0px !important;
+	border-left: 0px !important;
+	border-bottom: 1px solid !important;
+	border-style: solid;
+	border-color: white;
+	margin-bottom: 3px;
+	padding: 1px;
 }
 
 .commandersdiv{
@@ -118,6 +190,12 @@ body{background-color: rgb(247, 247, 247);	}
   color: #f1f1f1;
 }
 
+div.separate{
+	margin-top: 10px; 
+	padding-top: 5px;
+	border-top: 2px solid rgb(100, 100, 100);
+}
+
 .main {
   margin-left: 260px; /* Same as the width of the sidenav */
   font-size: 28px; /* Increased text to enable scrolling */
@@ -128,39 +206,16 @@ body{background-color: rgb(247, 247, 247);	}
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
-.blackcube{
-	background-color: rgba(79, 54, 99, 0.15)
-}
 
-.bluecube{
-	background-color: rgba(179, 199, 255, 0.35)
-}
-
-.redcube{
-	background-color: rgba(250, 150, 150, 0.35)
-}
-
-.greencube{
-	background-color: rgba(150, 250, 150, 0.35)
-}
-
-.whitecube{
-	background-color: rgba(240, 240, 120, 0.35)
-}
-
-.multicolorcube{
-	background-color: rgba(255, 165, 0, 0.2)
-}
-
-.colorlesscube{
-	background-color: rgba(90, 90, 90, 0.1)
-}
-
-.landscube{
-	background-color: rgba(71, 40, 11, 0.15)
-}
-
-
+/* colors for each color */
+.blackcube{background-color: rgba(79, 54, 99, 0.13)}
+.bluecube{background-color: rgba(179, 199, 255, 0.32)}
+.redcube{background-color: rgba(250, 150, 150, 0.32)}
+.greencube{background-color: rgba(150, 250, 150, 0.27)}
+.whitecube{background-color: rgba(240, 240, 120, 0.27)}
+.multicolorcube{background-color: rgba(255, 165, 0, 0.18)}
+.colorlesscube{background-color: rgba(90, 90, 90, 0.09)}
+.landscube{background-color: rgba(71, 40, 11, 0.13)}
 
 #cubesize{
   width: 60px;

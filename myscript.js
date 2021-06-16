@@ -1,5 +1,7 @@
-
-
+// TODO: Add "export" button for cube list
+//TODO: cleanly separate "highlight" from the cube generation part
+//TODO: Highlight should only appear after cube is generated
+//TODO: Add more advanced analytics per-commander (maybe move the 'highlight' functionality here)
  var colors          = ["W",  "U", "B", "R", "G", []];
  var contents = [];
 (function($) {
@@ -111,12 +113,12 @@ function deterministic_cube(dicts){
     found_cards_guilds_noncreatures = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     found_lands = 0
     cubesize = $('#cubesize').val()
-    nlands_min = 0.02 * cubesize
+    nlands_min = Math.floor(0.02 * cubesize)	
     multi_size = Math.floor(cubesize/140)
     nmultis_creatures = Array(10).fill(multi_size)
     nmultis_spells = Array(10).fill(multi_size)
     bsize=Math.floor((cubesize - multi_size * 20-nlands_min)/12)
-    nlands = (cubesize-bsize*12-multi_size*20+nlands_min)
+    nlands = (cubesize-bsize*12-multi_size*20)
 	ncreatures = [bsize, bsize, bsize, bsize, bsize, bsize]
 	max_creatures = arrSum(ncreatures)
 	nspells =    [bsize, bsize, bsize, bsize, bsize, bsize]
@@ -219,8 +221,8 @@ function deterministic_cube(dicts){
 		}
 
     	if (i>5000 || arrSum(found_creatures_by_color) == max_creatures && arrSum(found_noncreatures_by_color) == max_noncreatures && (arrSum(found_cards_guilds_creatures) + arrSum(found_cards_guilds_noncreatures)) == multi_size*20 && found_lands == nlands){
-    		console.log(i>3000, arrSum(found_creatures_by_color) == max_creatures, arrSum(found_noncreatures_by_color) == max_noncreatures,(arrSum(found_cards_guilds_creatures) + arrSum(found_cards_guilds_noncreatures)) == multi_size*20 )
-    		console.log("breaking")
+    		//console.log(i>3000, arrSum(found_creatures_by_color) == max_creatures, arrSum(found_noncreatures_by_color) == max_noncreatures,(arrSum(found_cards_guilds_creatures) + arrSum(found_cards_guilds_noncreatures)) == multi_size*20 )
+    		//console.log("breaking")
     		break
     	}
 
@@ -292,7 +294,7 @@ $(document).ready(function() {
 	$('#select-id').on('change', function (e) {
 		var optionSelected = $("option:selected", this);
 		var valueSelected = this.value;
-		$("div").removeClass('thick');
+		$("li").removeClass('thick');
    	     $("."+valueSelected).addClass('thick');
 	});
 
@@ -302,11 +304,11 @@ $(document).ready(function() {
 		var message = $('#commanders_textarea').val();
 
 		a = message.split("\n")
-		console.log("tilbuinn", a)
 		textarea_commanders =[]; //new Array(a);
 		for (cmdr in a){textarea_commanders.push(a[cmdr])}
 
 		for (let i = 0; i < a.length; i++){
+			if (a[i].length == 0) {continue}
 			readable_name = String(a[i])
 			a[i] = a[i].replaceAll('\'', '')
 			a[i] = a[i].replaceAll(',', '')
@@ -318,7 +320,7 @@ $(document).ready(function() {
 				json_obj["rname"] = readable_name
 				contents.push(json_obj);
 			}).fail(function(error){
-				console.log("An error has occurred.", i, a[i], error);
+				console.log("An error has occurred.", i, a[i], error, a[i].length);
 			});
 		}
 
@@ -326,8 +328,11 @@ $(document).ready(function() {
 		// make the cube list
 		full_cube = deterministic_cube(score_dicts)
 		
-		// reset the table
+		// reset the table old
 		$('.tg-0lax').text("");
+		
+		// reset the table new
+		$("ul").empty()
 		
 		// populate the table with the cube cards
 		for (var i = 0; i < full_cube.length; i++){
@@ -352,11 +357,46 @@ $(document).ready(function() {
 				if (types.includes("Land")){
 					cid_tag = "lands"
 				}
-				$("#"+String(bigtype)+"_"+String(cid_tag)).append($('<div></div>').addClass(full_cube[i]["commanders"]).addClass("tooltip").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html(full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				// Old table function
+				//$("#"+String(bigtype)+"_"+String(cid_tag)).append($('<div></div>').addClass(full_cube[i]["commanders"]).addClass("tooltip").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html(full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 
-			}	
+
+				// Populate new list-columns with the cube cards
+				// TODO: Clean up this montrosity
+				if (bigtype == "creatures"){
+				$("#"+String(bigtype)+"2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+String(bigtype)+"2_"+String(cid_tag)+"-container").show()}
+				else if (types.includes("Instant")){
+				$("#"+"instants2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"instants2_"+String(cid_tag)+"-container").show()
+				} else if (types.includes("Sorcery")){
+				$("#"+"sorceries2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"sorceries2_"+String(cid_tag)+"-container").show()
+				} else if (types.includes("Artifact")){
+				$("#"+"artifacts2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"artifacts2_"+String(cid_tag)+"-container").show()
+				} else if (types.includes("Enchantment")){
+				$("#"+"enchantments2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"enchantments2_"+String(cid_tag)+"-container").show()
+				} else if (types.includes("Planeswalker")){
+				$("#"+"planeswalkers2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"planeswalkers2_"+String(cid_tag)+"-container").show()
+				}
+				else {
+				$("#"+String(bigtype)+"2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+String(bigtype)+"2_"+String(cid_tag)+"-container").show()
+				}
+			}	 // end populate for loop
+			
+			//TODO: Count and display number for each category
+			//$('ul#creatures2_W li').length
 			
 		}
+		
+
+		
+		
+		
 		
 		// populate select item with commander names
 		
