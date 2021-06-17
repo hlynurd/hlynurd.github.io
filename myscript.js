@@ -247,7 +247,7 @@ function gather_all_cards_relevant_to_commanders2(contents){
             if (card1["name"] in score_dicts2){
 
                 score_dicts2[card1["name"]]["counts"] +=1
-                score_dicts2[card1["name"]]["score"] += Math.pow(card1["cond_prob"], 1.5)
+                score_dicts2[card1["name"]]["score"] += card1["cond_prob"]*2//Math.pow(card1["cond_prob"], 1.5)
                 score_dicts2[card1["name"]]["all_scores"].push(card1["cond_prob"])
                 score_dicts2[card1["name"]]["commanders"].push(con1["cname"])
                 score_dicts2[card1["name"]]["readable_commanders"].push(con1["rname"])
