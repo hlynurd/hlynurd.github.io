@@ -1,9 +1,7 @@
 //([TODO: Add more advanced analytics per-commander (maybe move the 'highlight' functionality here)]
 // TODO: Write opening blurb
 //TODO: Add logo and random name
-// TODO: Center loader OR put inside 'generate cube' button
 //TODO: Show this to people
-//TODO: Make the top each card white
  var colors          = ["W",  "U", "B", "R", "G", []];
  var contents = [];
 (function($) {
@@ -314,7 +312,8 @@ $(document).ready(function() {
 	$("#cubemake").click(function() {
 		$(".loader").show();
 		$(".category").hide();
-		
+		$(".list-column").hide();
+		$("#cubemake").attr("disabled", "disabled");
 		contents = [];
 		var message = $('#commanders_textarea').val();
 
@@ -433,6 +432,7 @@ $(document).ready(function() {
 			$('#select-id').append($('<option></option>').val(cname).text(String(contents[j]["rname"]))); 
 		}
 		$(".loader").hide();
+		$("#cubemake").removeAttr("disabled");
 
 	});
 });

@@ -4,6 +4,10 @@ input[type='number']{
     width: 80px;
 } 
 
+input{
+	border:0;
+}
+
 @font-face {
   font-family: montserrat-bold;
   src: url(Montserrat-SemiBold.ttf);
@@ -21,13 +25,16 @@ html{
 
 textarea{
 font-family: montserrat-regular !important;
-padding: 8px 16px 8px 16px;
+padding: 8px 12px 8px 12px;
 line-height: 1.5;
+border:0;
 }
 
 
 select{
 font-family: montserrat-regular !important;
+border:0;
+padding: 0px 4px 0px 4px;
 }
 body{background-color: rgb(247, 247, 247);	}
 
@@ -39,17 +46,21 @@ body{background-color: rgb(247, 247, 247);	}
   height:32px;
 }
 
-
+input:disabled{
+background-color: #dddddd !important;
+}
 
 
 .loader {
-  border: 16px solid #f3f3f3;
+  border: 35px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
+  border-top: 35px solid #4461d7;
+height: 0px; width: 20%; padding-top: 20%;
   -webkit-animation: spin 1s linear infinite; /* Safari */
   animation: spin 1s linear infinite;
+      position:fixed;
+    top: 20%;
+    left: 50%;
 }
 
 /* new list column layout */
@@ -238,6 +249,7 @@ div.separate{
 #cubesize{
 font-family: montserrat-regular;
   width: 60px;
+  padding: 0px 4px 0px 4px;
 }
  
 .tg  {border-collapse:collapse;border-spacing:0; background-color: white; box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);}
@@ -255,8 +267,8 @@ th {width:160px;}
 
 #cubemake{
 font-family: montserrat-bold;
-  background-color:#c8defc;
-  color: #7d9bc9;
+  background-color:#4461d7;
+  color: white;
   height:50px;
   border-radius: 50px;
   width:100%;
@@ -271,8 +283,9 @@ font-family: montserrat-bold;
 }
 #programatically{
 font-family: montserrat-bold;
-  background-color:#c8defc;
-  color: #7d9bc9;
+  background-color:#white;
+  color: #4461d7;
+  border: 2px solid #4461d7 !important;
   height:50px;
   border-radius: 50px;
   width:100%;
