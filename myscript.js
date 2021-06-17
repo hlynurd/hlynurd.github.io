@@ -3,7 +3,7 @@
 //([TODO: Add more advanced analytics per-commander (maybe move the 'highlight' functionality here)]	
 //(TODO: Make the hover-over grab and display the card)
 //TODO: Optimize the speed, generating the cube breaks down chrome
-//TODO: list-columns are not all the same width
+//TODO: Don't recalculate "contents" if the commander list is unchanged
  var colors          = ["W",  "U", "B", "R", "G", []];
  var contents = [];
 (function($) {
@@ -40,46 +40,25 @@ function isItemInArray(array, item) {
 }
 
 function guild_cidx_to_int(cidx){
-    if (cidx[0] == 'U' && cidx[1] == 'W'){
-            return 0
-    }
-
+    if (cidx[0] == 'U' && cidx[1] == 'W'){return 0}
     if (cidx[0] == 'B' && cidx[1] == 'U'){
-            return 1
-    }
-
+            return 1}
     if (cidx[0] == 'B' && cidx[1] =='R'){
-            return 2
-    }
-
+            return 2}
     if (cidx[0] == 'G' && cidx[1] =='R'){
-            return 3
-    }
-
+            return 3}
     if (cidx[0] == 'G' && cidx[1] =='W'){
-            return 4
-    }
-
+            return 4}
     if (cidx[0] == 'B' && cidx[1] =='W'){
-            return 5
-    }
-
+            return 5}
     if (cidx[0] == 'R' && cidx[1] =='U'){
-            return 6
-    }
-
+            return 6}
     if (cidx[0] == 'B' && cidx[1] =='G'){
-            return 7
-    }
-
+            return 7}
     if (cidx[0] == 'R' && cidx[1] =='W'){
-            return 8
-    }
-
+            return 8}
     if (cidx[0] == 'G' && cidx[1] == 'U'){
-            return 9
-    }
-}
+            return 9}}
 
 function sortByKey(array, key) {
     return array.sort(function(a, b) {
@@ -106,6 +85,8 @@ arrSum = function(arr){
 }
 
 function deterministic_cube(dicts){
+	var x0 = performance.now();
+
 	cube_creatures = []
     cube_noncreatures  = []
     found_creatures_by_color = [0, 0, 0, 0, 0, 0]
@@ -131,21 +112,29 @@ function deterministic_cube(dicts){
 	cube_size = cubesize - cards_from_each_guild*10
     multicolor = cards_from_each_guild
     lands      = false
-    
+	var x01 = performance.now();
+
     score_dicts2 = []
-    for (var i = 0; i < Object.keys(score_dicts).length; i++){
-    	tmp_dict = score_dicts[Object.keys(score_dicts)[i]]
-    	tmp_dict["name"] = Object.keys(score_dicts)[i].replace("\"", "").trim()
+
+	the_keys = Object.keys(score_dicts)
+    for (var i = 0; i < the_keys.length; i++){
+    	tmp_dict = score_dicts[the_keys[i]]
+    	tmp_dict["name"] = the_keys[i].replace("\"", "").trim()
     	score_dicts2.push(tmp_dict)
     }
-    score_dicts = score_dicts2
-    
+
+	var x02 = performance.now();
+
+    //score_dicts = score_dicts2
+
     focus = $('#focus-id').val()
 
     max_budget = $('#budget-id').val()
 
     
-    ordered_dicts = sortByKey(score_dicts, focus)
+    ordered_dicts = sortByKey(score_dicts2, focus)
+	var x1 = performance.now();
+
     for (var i = 0; i < ordered_dicts.length; i++){
 		card = ordered_dicts[i]
 		if (card["budget"] > max_budget){continue}
@@ -227,10 +216,8 @@ function deterministic_cube(dicts){
     		//console.log("breaking")
     		break
     	}
-
-    	
     }
-    console.log(found_cards_guilds_noncreatures, found_cards_guilds_creatures, found_creatures_by_color, found_noncreatures_by_color)
+    var x2 = performance.now();
     return cube_creatures.concat(cube_noncreatures)
 }
 
@@ -242,8 +229,8 @@ function gather_all_cards_relevant_to_commanders2(contents){
     	con1 = contents[k]
         for (var k2 = 0; k2 < con1["cards"].length; k2++) {
         	card1 = con1["cards"][k2]
-            try{card1["name"] in score_dicts2}
-            catch(error){continue}
+//            try{card1["name"] in score_dicts2}
+//            catch(error){continue}
             if (card1["name"] in score_dicts2){
 
                 score_dicts2[card1["name"]]["counts"] +=1
@@ -285,7 +272,7 @@ var message;
 var full_cube;
 
 $.ajaxSetup({
-    async: false
+   async: false
 });
 
 var textarea_commanders;
@@ -312,6 +299,7 @@ $(document).ready(function() {
 	});
 
 	$("#cubemake").click(function() {
+		var a1 = performance.now();
 		$(".loader").show();
 		$(".category").hide();
 		$(".list-column").hide();
@@ -342,11 +330,15 @@ $(document).ready(function() {
 				});
 			}
 		}
+        var b1 = performance.now();
 
 		score_dicts = gather_all_cards_relevant_to_commanders2(contents)
 		// make the cube list
+		        var c1 = performance.now();
+
 		full_cube = deterministic_cube(score_dicts)
-		
+		        var d1 = performance.now();
+
 		// reset the table old
 		$('.tg-0lax').text("");
 		
@@ -417,7 +409,8 @@ $(document).ready(function() {
 		
 
 		
-		
+        var e1 = performance.now();
+
 		
 		
 		// populate select item with commander names
@@ -438,6 +431,7 @@ $(document).ready(function() {
 		}
 		$(".loader").hide();
 		$("#cubemake").removeAttr("disabled");
+        var f1 = performance.now();
 
 	});
 });
