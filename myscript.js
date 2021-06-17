@@ -325,12 +325,18 @@ $(document).ready(function() {
 		for (cmdr in a){textarea_commanders.push(a[cmdr])}
 
 		for (let i = 0; i < a.length; i++){
-			if (a[i].length == 0) {continue}
+			console.log("let the games begin")
 			readable_name = String(a[i])
+			console.log(readable_name)
 			a[i] = a[i].replaceAll('\'', '')
+			console.log(a[i])
 			a[i] = a[i].replaceAll(',', '')
+			console.log(a[i])
 			a[i] = a[i].replaceAll("\\n", "")
+			console.log(a[i])
 			a[i] = a[i].toLowerCase().trim().replaceAll(" ", "-")
+			console.log(a[i])
+			if (a[i].length == 0) {continue}
 			// XXX: Not everyone is in "cleaned_cardlists" yet, do this offline
 			if (a[i].length>2){
 				$.getJSON("cubed/cleaned_cardlists/"+ a[i] + ".json", function(data){
@@ -338,7 +344,7 @@ $(document).ready(function() {
 					json_obj["rname"] = readable_name
 					contents.push(json_obj);
 				}).fail(function(error){
-					console.log("An error has occurred.", i, a[i], error, a[i].length);
+					console.log("An error has occurred.", i, a[i], error, a[i].length, readable_name);
 				});
 			}
 		}
