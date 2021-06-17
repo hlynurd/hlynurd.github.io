@@ -325,17 +325,11 @@ $(document).ready(function() {
 		for (cmdr in a){textarea_commanders.push(a[cmdr])}
 
 		for (let i = 0; i < a.length; i++){
-			console.log("let the games begin")
 			readable_name = String(a[i])
-			console.log(readable_name)
 			a[i] = a[i].replaceAll('\'', '')
-			console.log(a[i])
 			a[i] = a[i].replaceAll(',', '')
-			console.log(a[i])
 			a[i] = a[i].replaceAll("\\n", "")
-			console.log(a[i])
 			a[i] = a[i].toLowerCase().trim().replaceAll(" ", "-")
-			console.log(a[i])
 			if (a[i].length == 0) {continue}
 			// XXX: Not everyone is in "cleaned_cardlists" yet, do this offline
 			if (a[i].length>2){
