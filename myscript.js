@@ -1,8 +1,9 @@
 //([TODO: Add more advanced analytics per-commander (maybe move the 'highlight' functionality here)]
 // TODO: Write opening blurb
 //TODO: Add logo and random name
-// TODO: Center loader
+// TODO: Center loader OR put inside 'generate cube' button
 //TODO: Show this to people
+//TODO: Make the top each card white
  var colors          = ["W",  "U", "B", "R", "G", []];
  var contents = [];
 (function($) {
@@ -312,6 +313,8 @@ $(document).ready(function() {
 
 	$("#cubemake").click(function() {
 		$(".loader").show();
+		$(".category").hide();
+		
 		contents = [];
 		var message = $('#commanders_textarea').val();
 
@@ -379,26 +382,26 @@ $(document).ready(function() {
 				// Populate new list-columns with the cube cards
 				// TODO: Clean up this montrosity
 				if (bigtype == "creatures"){
-				$("#"+String(bigtype)+"2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+String(bigtype)+"2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").html("<div class=\"overflowing\">"+String(card)+"</div>").append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 				$("#"+String(bigtype)+"2_"+String(cid_tag)+"-container").show()}
 				else if (types.includes("Instant")){
-				$("#"+"instants2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"instants2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").html("<div class=\"overflowing\">"+String(card)+"</div>").append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 				$("#"+"instants2_"+String(cid_tag)+"-container").show()
 				} else if (types.includes("Sorcery")){
-				$("#"+"sorceries2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"sorceries2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").html("<div class=\"overflowing\">"+String(card)+"</div>").append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 				$("#"+"sorceries2_"+String(cid_tag)+"-container").show()
 				} else if (types.includes("Artifact")){
-				$("#"+"artifacts2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"artifacts2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").html("<div class=\"overflowing\">"+String(card)+"</div>").append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 				$("#"+"artifacts2_"+String(cid_tag)+"-container").show()
 				} else if (types.includes("Enchantment")){
-				$("#"+"enchantments2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"enchantments2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").html("<div class=\"overflowing\">"+String(card)+"</div>").append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 				$("#"+"enchantments2_"+String(cid_tag)+"-container").show()
 				} else if (types.includes("Planeswalker")){
-				$("#"+"planeswalkers2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+"planeswalkers2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").html("<div class=\"overflowing\">"+String(card)+"</div>").append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 				$("#"+"planeswalkers2_"+String(cid_tag)+"-container").show()
 				}
 				else {
-				$("#"+String(bigtype)+"2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").text(String(card)).append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
+				$("#"+String(bigtype)+"2_"+String(cid_tag)).append($('<li></li>').addClass(full_cube[i]["commanders"]).addClass("tooltip newli").html("<div class=\"overflowing\">"+String(card)+"</div>").append($("<span class=\"tooltiptext\"></span>").html("<div class=\"tooltipcard\">"+String(card)+"</div>"+ full_cube[i]["readable_commanders"].join(("<br>"))))).append("<br>")
 				$("#"+String(bigtype)+"2_"+String(cid_tag)+"-container").show()
 				}
 			}	 // end populate for loop
@@ -430,6 +433,7 @@ $(document).ready(function() {
 			$('#select-id').append($('<option></option>').val(cname).text(String(contents[j]["rname"]))); 
 		}
 		$(".loader").hide();
+
 	});
 });
 

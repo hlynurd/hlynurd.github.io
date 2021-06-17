@@ -56,12 +56,12 @@ body{background-color: rgb(247, 247, 247);	}
 
 .first-row{
 display:flex;
-	overflow:auto; 
+	/*overflow:auto;*/ 
 }
 
 .second-row{
 	display:flex; 
-	overflow:auto;
+	/*overflow:auto;*/
 }
 
 ul{
@@ -81,8 +81,8 @@ ul{
 	padding:32px;
 	margin:8px;
 	font-size: 14px;
-	width:22%;
-	overflow: hidden;
+	width:19%;
+	/*overflow: hidden;*/
 	float:left;
 	 box-shadow: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
 }
@@ -94,8 +94,8 @@ ul{
 .newli{
     display: inline-block;
     vertical-align: top;
-
-	overflow: hidden;
+	position: relative;
+	/*overflow: hidden;*/
 	text-overflow:ellipsis;
 	white-space: nowrap;
 		list-style-type:none;
@@ -103,6 +103,10 @@ ul{
     width:90%;
 }
 
+.overflowing{
+	overflow: hidden;
+		text-overflow:ellipsis;
+}
 
 /* Safari */
 @-webkit-keyframes spin {
@@ -246,12 +250,6 @@ font-family: montserrat-regular;
 td {width:160px;}
 th {width:160px;}
 
-/* Tooltip container */
-.tooltip {
-
-  display: inline-block;
-
-}
 
 
 
@@ -289,7 +287,12 @@ font-family: montserrat-bold;
 }
 
 
-/*<a id="programatically" href="" download="generated_cube.txt">Export cube</a>*/
+/* Tooltip container */
+.tooltip {
+
+  display: inline-block;
+
+}
 
 /* Tooltip text */
 .tooltip .tooltiptext {
@@ -300,11 +303,11 @@ font-family: montserrat-bold;
   text-align: center;
   padding: 7px;
   border-radius: 6px;
-  z-index: 1000;	
- 
+  z-index: -1;	
   /* Position the tooltip text - see examples below! */
   position: absolute;
-  z-index: 10000	;
+    top: -5px;
+  right: 105%;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
@@ -312,6 +315,13 @@ font-family: montserrat-bold;
   visibility: visible;
   z-index: 1000;
 }
+
+.category{
+	display:none;
+}
+
+/*<a id="programatically" href="" download="generated_cube.txt">Export cube</a>*/
+
 </style>
 
 
