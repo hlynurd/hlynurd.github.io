@@ -1,7 +1,9 @@
-//([TODO: Add more advanced analytics per-commander (maybe move the 'highlight' functionality here)]
-// TODO: Write opening blurb
 //TODO: Add logo and random name
-//TODO: Show this to people
+//TODO: Show this to people AND enable analytics
+//([TODO: Add more advanced analytics per-commander (maybe move the 'highlight' functionality here)]	
+//(TODO: Make the hover-over grab and display the card)
+//TODO: Optimize the speed, generating the cube breaks down chrome
+//TODO: list-columns are not all the same width
  var colors          = ["W",  "U", "B", "R", "G", []];
  var contents = [];
 (function($) {
@@ -313,6 +315,7 @@ $(document).ready(function() {
 		$(".loader").show();
 		$(".category").hide();
 		$(".list-column").hide();
+		$("p").hide()
 		$("#cubemake").attr("disabled", "disabled");
 		contents = [];
 		var message = $('#commanders_textarea').val();
@@ -329,13 +332,15 @@ $(document).ready(function() {
 			a[i] = a[i].replaceAll("\\n", "")
 			a[i] = a[i].toLowerCase().trim().replaceAll(" ", "-")
 			// XXX: Not everyone is in "cleaned_cardlists" yet, do this offline
-			$.getJSON("cubed/cleaned_cardlists/"+ a[i] + ".json", function(data){
-				json_obj = JSON.parse(data)
-				json_obj["rname"] = readable_name
-				contents.push(json_obj);
-			}).fail(function(error){
-				console.log("An error has occurred.", i, a[i], error, a[i].length);
-			});
+			if (a[i].length>2){
+				$.getJSON("cubed/cleaned_cardlists/"+ a[i] + ".json", function(data){
+					json_obj = JSON.parse(data)
+					json_obj["rname"] = readable_name
+					contents.push(json_obj);
+				}).fail(function(error){
+					console.log("An error has occurred.", i, a[i], error, a[i].length);
+				});
+			}
 		}
 
 		score_dicts = gather_all_cards_relevant_to_commanders2(contents)
