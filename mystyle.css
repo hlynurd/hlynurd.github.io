@@ -323,7 +323,7 @@ a {
 .end:hover{
 	color: #ef9999 !important;
 }
-
+/*
 #programatically{
 font-family: montserrat-bold;
   background-color:white;
@@ -339,6 +339,14 @@ font-family: montserrat-bold;
 	-moz-box-shadow: none;
 	box-shadow: none;
 	border:0;
+}*/
+
+#programatically{
+font-family: montserrat-bold;
+  background-color:white;
+  color: #4461d7;
+    border: 2px solid #4461d7 !important;
+      border-radius: 50px;
 }
 
 .bmc-btn{
