@@ -1,9 +1,9 @@
+// "I made a website that generates EDH cubes"
 //TODO: Add logo and random name
 //TODO: Show this to people AND enable analytics
 //([TODO: Add more advanced analytics per-commander (maybe move the 'highlight' functionality here)]	
 //(TODO: Make the hover-over grab and display the card)
-//TODO: Optimize the speed, generating the cube breaks down chrome
-//TODO: Don't recalculate "contents" if the commander list is unchanged
+//(TODO: Don't recalculate "contents" if the commander list is unchanged)
  var colors          = ["W",  "U", "B", "R", "G", []];
  var contents = [];
 (function($) {

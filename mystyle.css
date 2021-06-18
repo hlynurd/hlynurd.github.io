@@ -191,7 +191,7 @@ background-color:#f3f3f1;
   top: 0;
   left: 0;
   overflow-x: hidden;
-	padding:28px 64px 28px 64px;
+	padding:4px 64px 28px 64px;
 }
 
 .sidenav label{
@@ -220,6 +220,12 @@ background-color:#f3f3f1;
   display: block;
 }
 
+
+.logodiv{
+	padding: 4px 2px 4px 8px !important;
+}
+
+
 .sidenav a:hover {
   color: #f1f1f1;
 }
@@ -237,7 +243,7 @@ div.separate{
 }
 
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
+  .sidenav {padding-top: 14px;}
   .sidenav a {font-size: 18px;}
 }
 
@@ -286,9 +292,19 @@ font-family: montserrat-bold;
 	border:0;
 
 }
+
+a {
+	font-size: 14px !important;
+	float: left;
+}
+
+.end:hover{
+	color: #ef9999 !important;
+}
+
 #programatically{
 font-family: montserrat-bold;
-  background-color:#white;
+  background-color:white;
   color: #4461d7;
   border: 2px solid #4461d7 !important;
   height:50px;
@@ -301,7 +317,23 @@ font-family: montserrat-bold;
 	-moz-box-shadow: none;
 	box-shadow: none;
 	border:0;
+}
 
+.bmc-btn{
+font-family: montserrat-bold !important;
+  background-color:white !important;
+  color: #4461d7 !important;
+  border: 2px solid #4461d7 !important;
+  height:50px !important;
+  border-radius: 50px !important;
+  width:100% !important;
+  font-weight: 300 !important;
+  font-size: 20px !important; 
+  cursor:pointer !important;
+  	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+	border:0 !important;
 }
 
 
