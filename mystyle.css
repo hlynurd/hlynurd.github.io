@@ -18,9 +18,21 @@ input{
   src: url(Montserrat-Regular.ttf);
 }
 
+@font-face {
+  font-family: montserrat-extrabold;
+  src: url(Montserrat-ExtraBold.ttf);
+}
+
 html{
 	font-family: montserrat-regular !important; /*"Montserrat-SemiBold", sans-serif !important;*/
 	color: rgb(34, 34, 34);
+}
+
+.pagetitle{
+font-size: 28px !important;
+font-family: montserrat-extrabold !important;
+color: black;
+padding-top: 4px;
 }
 
 textarea{
@@ -185,12 +197,12 @@ margin-top: 2px;
 .sidenav {
 background-color:#f3f3f1;
   height: 100%;
-  width: 260px;
+  width: 275px;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
-  overflow-x: hidden;
+	overflow: auto;
 	padding:4px 64px 28px 64px;
 }
 
@@ -220,9 +232,19 @@ background-color:#f3f3f1;
   display: block;
 }
 
+.enddiv{
+padding-bottom: 32px;
+}
+
 
 .logodiv{
-	padding: 4px 2px 4px 8px !important;
+	margin-left: -52px;
+  padding: 12px 2px 4px 4px;
+  text-decoration: none;
+  overflow: hidden;
+  font-size: 20px;
+  color: #818181;
+  display: block;
 }
 
 
@@ -237,7 +259,7 @@ div.separate{
 }
 
 .main {
-  margin-left: 380px; /* Same as the width of the sidenav */
+  margin-left: 395px; /* Same as the width of the sidenav */
   font-size: 28px; /* Increased text to enable scrolling */
   padding: 0px 10px;
 }
